@@ -25,11 +25,11 @@ class Gato:
     def victoria(self):
         if self.juego.estado_final():
             if self.juego.ganador == 1:
-                messagebox.showinfo("Reversi", "Has ganado!")
+                messagebox.showinfo("Juego del Gato", "Has ganado!")
             elif self.juego.ganador == 0:
-                messagebox.showinfo("Reversi", "Empate")
+                messagebox.showinfo("Juego del Gato", "Empate")
             else:
-                messagebox.showinfo("Reversi", "Has perdido")
+                messagebox.showinfo("Juego del Gato", "Has perdido")
             self.juego.reiniciar()
             for i in range(3):
                 for j in range(3):

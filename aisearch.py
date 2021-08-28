@@ -1,20 +1,20 @@
 class JuegoGato:
   #Comienza el raton, valor=1
-  def __init__(self,estado=[0]*6,turno=1):
+  def __init__(self,estado=[0]*9,turno=1):
     self.tablero=estado
     self.completo=False
     self.ganador=None
     self.jugador=turno
 
   def reiniciar(self):
-    self.tablero=[0]*6
+    self.tablero=[0]*9
     self.completo=False
     self.ganador=None
     self.jugador=1
 
   def generar_jugadas_posibles(self):
     posibles=[]
-    for i in range(6):
+    for i in range(9):
       if self.tablero[i]==0:
         posibles.append(i)
     return posibles
