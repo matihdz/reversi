@@ -5,15 +5,15 @@ from tkinter import messagebox
 class Gato:
     def __init__(self):
         self.principal = Tk()
-        self.principal.title("Gato")
+        self.principal.title("Reversi")
         self.botones=[]
         self.gato=PhotoImage(file="./resources/agente.png")
         self.raton=PhotoImage(file="./resources/usuario.png")
         self.vacio=PhotoImage(file="./resources/vacio.png")
         self.juego=aisearch.JuegoGato()
-        for i in range(6):
+        for i in range(3):
             fila=[]
-            for j in range(6):
+            for j in range(3):
                 b1=Button(self.principal,image=self.vacio,width="80",height="80")
                 b1.bind("<Button-1>",self.click)
                 b1.x=i
@@ -25,11 +25,11 @@ class Gato:
     def victoria(self):
         if self.juego.estado_final():
             if self.juego.ganador == 1:
-                messagebox.showinfo("Juego del Gato", "Has ganado!")
+                messagebox.showinfo("Reversi", "Has ganado!")
             elif self.juego.ganador == 0:
-                messagebox.showinfo("Juego del Gato", "Empate")
+                messagebox.showinfo("Reversi", "Empate")
             else:
-                messagebox.showinfo("Juego del Gato", "Has perdido")
+                messagebox.showinfo("Reversi", "Has perdido")
             self.juego.reiniciar()
             for i in range(3):
                 for j in range(3):
@@ -38,8 +38,8 @@ class Gato:
         else:
             return False
     def click(self,evento):
-        if self.juego.tablero[evento.widget.x * 3 + evento.widget.y]==0:
-            self.juego.jugar(evento.widget.x * 3 + evento.widget.y)
+        if self.juego.tablero[evento.widget.x * 6 + evento.widget.y]==0:
+            self.juego.jugar(evento.widget.x * 6 + evento.widget.y)
             evento.widget["image"] = self.raton
             if not self.victoria():
                 o=[]
