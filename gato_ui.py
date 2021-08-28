@@ -38,8 +38,8 @@ class Gato:
         else:
             return False
     def click(self,evento):
-        if self.juego.tablero[evento.widget.x * 6 + evento.widget.y]==0:
-            self.juego.jugar(evento.widget.x * 6 + evento.widget.y)
+        if self.juego.tablero[evento.widget.x * 3 + evento.widget.y]==0:
+            self.juego.jugar(evento.widget.x * 3 + evento.widget.y)
             evento.widget["image"] = self.raton
             if not self.victoria():
                 o=[]
