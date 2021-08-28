@@ -11,9 +11,9 @@ class Gato:
         self.raton=PhotoImage(file="./resources/usuario.png")
         self.vacio=PhotoImage(file="./resources/vacio.png")
         self.juego=aisearch.JuegoGato()
-        for i in range(3):
+        for i in range(6):
             fila=[]
-            for j in range(3):
+            for j in range(6):
                 b1=Button(self.principal,image=self.vacio,width="80",height="80")
                 b1.bind("<Button-1>",self.click)
                 b1.x=i
