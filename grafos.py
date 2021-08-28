@@ -1,1 +1,0 @@
-print('modulo de grafos')
