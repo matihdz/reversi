@@ -7,8 +7,8 @@ class Gato:
         self.principal = Tk()
         self.principal.title("Gato")
         self.botones=[]
-        self.gato=PhotoImage(file="./resources/gato.png")
-        self.raton=PhotoImage(file="./resources/raton.png")
+        self.gato=PhotoImage(file="./resources/agente.png")
+        self.raton=PhotoImage(file="./resources/usuario.png")
         self.vacio=PhotoImage(file="./resources/vacio.png")
         self.juego=aisearch.JuegoGato()
         for i in range(3):
