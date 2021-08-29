@@ -15,18 +15,18 @@ class JuegoGato:
   def generar_jugadas_posibles(self):
     posibles=[]
     for i in range(9):
-      if self.tablero[i]==0:
+      if self.tablero[i]==0: #Además, la jugada debe ser posible tambien cuando transforma una o mas fichas del contrincante
         posibles.append(i)
     return posibles
 
   def estado_final(self):
     self.evaluar()
-    if self.ganador is not None or self.completo:
+    if self.ganador is not None or self.completo: #Solo cuando este completo es Verdadero
       return True
     else:
       return False
 
-  def evaluar(self):
+  def evaluar(self): #Por ver ....
     if 0 not in self.tablero:
       self.completo=True
     else:
@@ -58,7 +58,7 @@ class JuegoGato:
     self.tablero[jugada]=0
     self.jugador*=-1
 
-# 1: Ratón (Inicia, es el jugador humano)
+# 1: Raton (Inicia, es el jugador humano)
 #-1: Gato (Responde, es el computador)
 # cuando gana el gato el valor es -1
 # cuando gana el ratón el valor es 1
