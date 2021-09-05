@@ -2,6 +2,7 @@ import aisearch
 from tkinter import *
 from tkinter import messagebox
 
+tamanio = 3
 class Gato:
     def __init__(self):
         self.principal = Tk()
@@ -11,10 +12,19 @@ class Gato:
         self.raton=PhotoImage(file="./resources/usuario.png")
         self.vacio=PhotoImage(file="./resources/vacio.png")
         self.juego=aisearch.JuegoGato()
-        for i in range(3):
+        for i in range(tamanio):
             fila=[]
-            for j in range(3):
-                b1=Button(self.principal,image=self.vacio,width="80",height="80")
+            for j in range(tamanio):
+                if (i == 2 and j == 2):
+                    b1 = Button(self.principal, image=self.raton, width="80", height="80")
+                elif (i == 2 and j == 3):
+                    b1 = Button(self.principal, image=self.gato, width="80", height="80")
+                elif (i == 3 and j == 2):
+                    b1 = Button(self.principal, image=self.gato, width="80", height="80")
+                elif (i == 3 and j == 3):
+                    b1 = Button(self.principal, image=self.raton, width="80", height="80")
+                else:
+                    b1=Button(self.principal,image=self.vacio,width="80",height="80")
                 b1.bind("<Button-1>",self.click)
                 b1.x=i
                 b1.y=j
@@ -31,25 +41,23 @@ class Gato:
             else:
                 messagebox.showinfo("Juego del Gato", "Has perdido")
             self.juego.reiniciar()
-            for i in range(3):
-                for j in range(3):
+            for i in range(tamanio):
+                for j in range(tamanio):
                     self.botones[i][j]["image"] = self.vacio
             return True
         else:
             return False
     def click(self,evento):
-        if self.juego.tablero[evento.widget.x * 3 + evento.widget.y]==0:
-            self.juego.jugar(evento.widget.x * 3 + evento.widget.y)
+        if self.juego.tablero[evento.widget.x * tamanio + evento.widget.y]==0:
+            self.juego.jugar(evento.widget.x * tamanio + evento.widget.y)
             evento.widget["image"] = self.raton
             if not self.victoria():
                 o=[]
-                #m=aisearch.negascout(self.juego,-1000,1000, [], o)
-                #m=aisearch.alfabeta(self.juego,1,-1000,1000, [], o)
-                m=aisearch.minimax(self.juego, 1, [], o)
-                #m=aisearch.negamax(self.juego,[],o)
-                print(len(o))
+                m=aisearch.alfabeta(self.juego,1,-1000,1000, [], o)
+                print(m)
+                #print(len(o))
                 self.juego.jugar(m[1])
-                self.botones[m[1]//3][m[1]%3]["image"]=self.gato
+                self.botones[m[1]//tamanio][m[1]%tamanio]["image"]=self.gato
                 self.victoria()
 juego=Gato()
 mainloop()
