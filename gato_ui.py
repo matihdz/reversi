@@ -2,7 +2,7 @@ import aisearch
 from tkinter import *
 from tkinter import messagebox
 
-tamanio = 3
+tamanio = 6
 class Gato:
     def __init__(self):
         self.principal = Tk()
@@ -54,7 +54,6 @@ class Gato:
             if not self.victoria():
                 o=[]
                 m=aisearch.alfabeta(self.juego,1,-1000,1000, [], o)
-                print(m)
                 #print(len(o))
                 self.juego.jugar(m[1])
                 self.botones[m[1]//tamanio][m[1]%tamanio]["image"]=self.gato

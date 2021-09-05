@@ -1,5 +1,8 @@
-tamanio = 3 * 3
+import test
 
+filas = test.filas
+columnas = test.columnas
+tamanio = 6*6
 class JuegoGato:
   #Comienza el raton, valor=1
   def __init__(self,estado=[0]*tamanio,turno=1):
@@ -14,12 +17,78 @@ class JuegoGato:
     self.ganador=None
     self.jugador=1
 
+  def revisarHaciaIzquierda(self, pos):
+    numFila = 0
+    numColumna = 0
+    for fila in filas:
+        if pos in fila:
+            numFila = filas.index(fila)
+            numColumna = fila.index(pos)
+
+    cotaInferior = filas[numFila][0]
+    posicionDeFichasPorDarVuelta = []
+    #Deben haber al menos 2 espacios hacia la izquierda, y la ficha de la casilla izquierda debe ser del contrincante
+    if(pos - 2 >= cotaInferior and self.tablero[pos - 1] == self.jugador * -1): 
+        cantidadCasillasPorVerificar = pos - cotaInferior - 1
+        while cantidadCasillasPorVerificar >= 0:
+            fichaActual = self.tablero[cotaInferior + cantidadCasillasPorVerificar]
+            if(fichaActual == self.jugador):
+                print('termino la revision hacia la izquierda, esta es una posible jugada')
+                return True
+            posicionDeFichasPorDarVuelta.append(cotaInferior + cantidadCasillasPorVerificar)
+            print(posicionDeFichasPorDarVuelta)
+            cantidadCasillasPorVerificar = cantidadCasillasPorVerificar - 1
+    return False
+  
+  def revisarHaciaDerecha(self, pos):
+    numFila = 0
+    numColumna = 0
+    for fila in filas:
+        if pos in fila:
+            numFila = filas.index(fila)
+            numColumna = fila.index(pos)
+
+    cotaInferior = filas[numFila][0]
+    cotaSuperior = filas[numFila][-1]
+    posicionDeFichasPorDarVuelta = []
+    #Deben haber al menos 2 espacios hacia la derecha, y la ficha de la casilla derecha debe ser del contrincante
+    if(pos + 2 <= cotaSuperior and self.tablero[pos + 1] == self.jugador * -1): 
+        if(pos == 0):
+            cantidadCasillasPorVerificar = cotaSuperior - 1
+        else:
+            cantidadCasillasPorVerificar = cotaSuperior - pos + 1
+        print(cantidadCasillasPorVerificar)
+        while cantidadCasillasPorVerificar >= 0:
+            fichaActual = self.tablero[cotaSuperior - cantidadCasillasPorVerificar]
+            if(fichaActual == self.jugador):
+                print('termino la revision hacia la derecha, esta es una posible jugada')
+                return True
+            posicionDeFichasPorDarVuelta.append(cotaSuperior - cantidadCasillasPorVerificar)
+            print(posicionDeFichasPorDarVuelta)
+            cantidadCasillasPorVerificar = cantidadCasillasPorVerificar - 1
+    return False
+  
   def generar_jugadas_posibles(self): #Acá se ve que, porque y como jugara el agente
     posibles=[]
-    print(self.tablero)
-    for i in range(tamanio):
+    for i in range(tamanio): 
       if self.tablero[i]==0:
-        posibles.append(i)
+        #Al llegar a este punto, "i" es una POSIBLE jugada,
+        #i será realmente una posible jugada si tambien en al menos una direccion, 
+        # de lo hay debajo/arriba/diagonal de ella, 
+        # se encuentra una ficha del jugador contrincante
+        #DIRECCIONES: 
+        # arriba
+        # abajo
+        # izquierda
+        # derecha
+        # diagonal superior izquierda
+        # diagonal superior derecha
+        # diagonal inferior izquierda
+        # diagonal inferior derecha
+        if(self.revisarHaciaIzquierda(i)):
+          posibles.append(i)
+        if(self.revisarHaciaDerecha(i)):
+          posibles.append(i)
     return posibles
 
   def estado_final(self):
@@ -92,6 +161,6 @@ def alfabeta(juego,etapa,alfa,beta,secuencia,secuencias):
 
 
 if __name__ == "__main__":
-  juego=JuegoGato([0,0,0,0,0,0,0,0,0],-1)
+  juego=JuegoGato([0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],-1)
   o3=[]
   r3=alfabeta(juego,-1,-1000,1000,[],o3)

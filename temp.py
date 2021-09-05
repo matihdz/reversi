@@ -1,3 +1,30 @@
+""" 
+if(i-6 >= 0 and i-12 >= 0):
+  if(self.tablero[i-6] == self.jugador*-1 and self.tablero[i-12] == self.jugador): #Verificar hacia arriba
+    posibles.append(i)
+if(i+6 <= 36 and i+12 <= 36):
+  print(i)
+  if(self.tablero[i+6] == self.jugador*-1 and self.tablero[i+12] == self.jugador): #Verificar hacia abajo
+    posibles.append(i)
+if(i-1 >= 0 and i-2 >= 0):
+  if(self.tablero[i-1] == self.jugador*-1 and self.tablero[i-2] == self.jugador): #Verificar hacia izq
+    posibles.append(i)
+if(i+1 <= 36 and i+2 <= 36):
+  if(self.tablero[i+1] == self.jugador*-1 and self.tablero[i+2] == self.jugador): #Verificar hacia der
+    posibles.append(i)
+if(i-7 >= 0 and i-14 >= 0):
+  if(self.tablero[i-7] == self.jugador*-1 and self.tablero[i-14] == self.jugador): #Verificar hacia diag. sup. izq.
+    posibles.append(i)
+if(i-5 >= 0 and i-10 >= 0):
+  if(self.tablero[i-5] == self.jugador*-1 and self.tablero[i-10] == self.jugador): #Verificar hacia diag. sup. der.
+    posibles.append(i)
+if(i+5 <= 36 and i+10 <= 36):
+  if(self.tablero[i+5] == self.jugador*-1 and self.tablero[i+10] == self.jugador): #Verificar hacia diag. inf. izq.
+    posibles.append(i)
+if(i+7 <= 36 and i+14 <= 36):
+  if(self.tablero[i+7] == self.jugador*-1 and self.tablero[i+14] == self.jugador): #Verificar hacia diag. inf. der.
+    posibles.append(i)
+"""
 def evaluar(self): #¿Gano alguien? ¿Quién ganó?
     if 0 not in self.tablero:
       self.completo=True
