@@ -14,7 +14,6 @@ columnas = [
     [4, 10, 16, 22, 28, 34], 
     [5, 11, 17, 23, 29, 35], 
 ]
-
 diagonalesIzquierda = [
     [24, 31],
     [18, 25, 32],
@@ -26,7 +25,6 @@ diagonalesIzquierda = [
     [3, 10, 17],
     [4, 11],
 ]
-
 diagonalesDerecha = [
     [1, 6],
     [2, 7, 12],
@@ -77,7 +75,6 @@ def revisarDiagonalSuperiorDer(tablero, jugadorActual, pos):
                 print('Fichas a dar vuelta: ', posicionDeFichasPorDarVuelta)
                 return True
     return False
-
 def revisarDiagonalSuperiorIzq(tablero, jugadorActual, pos):
     for diagonal in diagonalesIzquierda:
         if pos in diagonal:
@@ -95,7 +92,6 @@ def revisarDiagonalSuperiorIzq(tablero, jugadorActual, pos):
                 print('Fichas a dar vuelta: ', posicionDeFichasPorDarVuelta)
                 return True
     return False
-
 def revisarDiagonalInferiorDer(tablero, jugadorActual, pos):
     for diagonal in diagonalesIzquierda:
         if pos in diagonal:
@@ -112,8 +108,7 @@ def revisarDiagonalInferiorDer(tablero, jugadorActual, pos):
             if(fichaActual == jugadorActual):
                 print('Fichas a dar vuelta: ', posicionDeFichasPorDarVuelta)
                 return True
-    return False
-  
+    return False 
 def revisarHaciaAbajo(tablero, jugadorActual, pos):
     numColumna = 0
     for fila in filas:
@@ -133,7 +128,6 @@ def revisarHaciaAbajo(tablero, jugadorActual, pos):
                 print('Fichas a dar vuelta: ', posicionDeFichasPorDarVuelta)
                 return True
     return False
-
 def revisarHaciaArriba(tablero, jugadorActual, pos):
     numColumna = 0
     for fila in filas:
@@ -153,7 +147,6 @@ def revisarHaciaArriba(tablero, jugadorActual, pos):
                 print('Fichas a dar vuelta: ', posicionDeFichasPorDarVuelta)
                 return True
     return False
-    
 def revisarHaciaIzquierda(tablero, jugadorActual, pos):
     numFila = 0
     for fila in filas:
