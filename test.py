@@ -15,94 +15,105 @@ columnas = [
     [5, 11, 17, 23, 29, 35], 
 ]
 
-tablero = [1,1,1,1,1,1,1,1,1,1,1,1,1,-1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
-jugadorActual = 1
-pos = 19
+diagonalesIzquierda = [
+    [24, 31],
+    [18, 25, 32],
+    [12, 19, 26, 33],
+    [6, 13, 20, 27, 34],
+    [0, 7, 14, 21, 28, 35],
+    [1, 8, 15, 22, 29],
+    [2, 9, 16, 23],
+    [3, 10, 17],
+    [4, 11],
+]
 
-# en "revisarHaciaArriba" faltan cosas
-def revisarHaciaArriba(tablero, jugadorActual, pos):
-    numFila = 0
+tablero = [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
+jugadorActual = 1
+pos = 18
+
+
+def revisarHaciaAbajo(tablero, jugadorActual, pos):
     numColumna = 0
     for fila in filas:
         if pos in fila:
-            numFila = filas.index(fila)
             numColumna = fila.index(pos)
-
+    cotaSuperior = columnas[numColumna][-1]
+    posicionDeFichasPorDarVuelta = []
+    #Deben haber al menos 2 espacios hacia abajo, y la ficha de la casilla de abajo debe ser del contrincante
+    if(pos + 12 <= cotaSuperior and tablero[pos + 6] == jugadorActual * -1): 
+        indicePosEnColumnas = columnas[numColumna].index(pos)
+        arrayCasillasPorVerificar = columnas[numColumna][indicePosEnColumnas+1:]
+        for posActual in arrayCasillasPorVerificar:
+            fichaActual = tablero[posActual]
+            if(fichaActual != jugadorActual):
+                posicionDeFichasPorDarVuelta.append(posActual)
+            if(fichaActual == jugadorActual):
+                print('Fichas a dar vuelta: ', posicionDeFichasPorDarVuelta)
+                return True
+    return False
+def revisarHaciaArriba(tablero, jugadorActual, pos):
+    numColumna = 0
+    for fila in filas:
+        if pos in fila:
+            numColumna = fila.index(pos)
     cotaInferior = columnas[numColumna][0]
     posicionDeFichasPorDarVuelta = []
     #Deben haber al menos 2 espacios hacia arriba, y la ficha de la casilla de arriba debe ser del contrincante
     if(pos - 12 >= cotaInferior and tablero[pos - 6] == jugadorActual * -1): 
-        cantidadCasillasPorVerificar = 0
-        for casilla in columnas[numColumna]:
-            if(casilla == pos):
-                break
-            cantidadCasillasPorVerificar = cantidadCasillasPorVerificar + 1
-        seisEnSeis = 0
-        while cantidadCasillasPorVerificar >= 0:
-            fichaActual = tablero[cotaInferior + seisEnSeis]
-            print(cotaInferior)
+        indicePosEnColumnas = columnas[numColumna].index(pos)
+        arrayCasillasPorVerificar = columnas[numColumna][0:indicePosEnColumnas]
+        for posActual in arrayCasillasPorVerificar.__reversed__():
+            fichaActual = tablero[posActual]
+            if(fichaActual != jugadorActual):
+                posicionDeFichasPorDarVuelta.append(posActual)
             if(fichaActual == jugadorActual):
-                return 'termino la revision hacia arriba, esta es una posible jugada'
-            if(cantidadCasillasPorVerificar == 0):
-                return 'termino la revision hacia arriba, esta NO es una posible jugada'
-            posicionDeFichasPorDarVuelta.append(cotaInferior + seisEnSeis)
-            print(posicionDeFichasPorDarVuelta)
-            seisEnSeis = seisEnSeis + 6
-            cantidadCasillasPorVerificar = cantidadCasillasPorVerificar - 1
+                print('Fichas a dar vuelta: ', posicionDeFichasPorDarVuelta)
+                return True
+    return False
 def revisarHaciaIzquierda(tablero, jugadorActual, pos):
     numFila = 0
-    numColumna = 0
     for fila in filas:
         if pos in fila:
             numFila = filas.index(fila)
-            numColumna = fila.index(pos)
-
     cotaInferior = filas[numFila][0]
     posicionDeFichasPorDarVuelta = []
     #Deben haber al menos 2 espacios hacia la izquierda, y la ficha de la casilla izquierda debe ser del contrincante
     if(pos - 2 >= cotaInferior and tablero[pos - 1] == jugadorActual * -1): 
-        cantidadCasillasPorVerificar = pos - cotaInferior - 1
-        while cantidadCasillasPorVerificar >= 0:
-            fichaActual = tablero[cotaInferior + cantidadCasillasPorVerificar]
+        indicePosEnColumnas = filas[numFila].index(pos)
+        arrayCasillasPorVerificar = filas[numFila][0:indicePosEnColumnas]
+        print(arrayCasillasPorVerificar)
+        for posActual in arrayCasillasPorVerificar.__reversed__():
+            fichaActual = tablero[posActual]
+            if(fichaActual != jugadorActual):
+              posicionDeFichasPorDarVuelta.append(posActual)
             if(fichaActual == jugadorActual):
-                return 'termino la revision hacia la izquierda, esta es una posible jugada'
-            posicionDeFichasPorDarVuelta.append(cotaInferior + cantidadCasillasPorVerificar)
-            print(posicionDeFichasPorDarVuelta)
-            cantidadCasillasPorVerificar = cantidadCasillasPorVerificar - 1
+                print('Fichas a dar vuelta: ', posicionDeFichasPorDarVuelta)
+                return True
+    return False
 def revisarHaciaDerecha(tablero, jugadorActual, pos):
     numFila = 0
-    numColumna = 0
     for fila in filas:
         if pos in fila:
             numFila = filas.index(fila)
-            numColumna = fila.index(pos)
-
-    cotaInferior = filas[numFila][0]
     cotaSuperior = filas[numFila][-1]
     posicionDeFichasPorDarVuelta = []
     #Deben haber al menos 2 espacios hacia la derecha, y la ficha de la casilla derecha debe ser del contrincante
     if(pos + 2 <= cotaSuperior and tablero[pos + 1] == jugadorActual * -1): 
-        if(pos == 0):
-            cantidadCasillasPorVerificar = cotaSuperior - 1
-        else:
-            cantidadCasillasPorVerificar = cotaSuperior - pos + 1
-        print(cantidadCasillasPorVerificar)
-        while cantidadCasillasPorVerificar >= 0:
-            fichaActual = tablero[cotaSuperior - cantidadCasillasPorVerificar]
+        indicePosEnColumnas = filas[numFila].index(pos)
+        arrayCasillasPorVerificar = filas[numFila][indicePosEnColumnas+1:]
+        for posActual in arrayCasillasPorVerificar:
+            fichaActual = tablero[posActual]
+            if(fichaActual != jugadorActual):
+              posicionDeFichasPorDarVuelta.append(posActual)
             if(fichaActual == jugadorActual):
-                return 'termino la revision hacia la derecha, esta es una posible jugada'
-            if(cantidadCasillasPorVerificar == 0):
-                return 'termino la revision hacia la derecha, esta NO es una posible jugada'
-            posicionDeFichasPorDarVuelta.append(cotaSuperior - cantidadCasillasPorVerificar)
-            print(posicionDeFichasPorDarVuelta)
-            cantidadCasillasPorVerificar = cantidadCasillasPorVerificar - 1
-
-#Hay unas condiciones que me faltaron en las funciones ya hechas, y faltan implementar todas las revisiones menos
-#las horizontales (izq y der)
+                print('Fichas a dar vuelta: ', posicionDeFichasPorDarVuelta)
+                return True
+    return False
 
 #print(revisarHaciaIzquierda(tablero, jugadorActual, pos))
 #print(revisarHaciaDerecha(tablero, jugadorActual, pos))
-print(revisarHaciaArriba(tablero, jugadorActual, pos))
+#print(revisarHaciaArriba(tablero, jugadorActual, pos))
+#print(revisarHaciaAbajo(tablero, jugadorActual, pos))
 
 
 

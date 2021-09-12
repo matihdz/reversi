@@ -17,65 +17,93 @@ class JuegoGato:
     self.ganador=None
     self.jugador=1
 
-  def revisarHaciaIzquierda(self, pos):
-    numFila = 0
+  def revisarHaciaAbajo(self, pos):
     numColumna = 0
     for fila in filas:
         if pos in fila:
-            numFila = filas.index(fila)
             numColumna = fila.index(pos)
+    cotaSuperior = columnas[numColumna][-1]
+    posicionDeFichasPorDarVuelta = []
+    #Deben haber al menos 2 espacios hacia abajo, y la ficha de la casilla de abajo debe ser del contrincante
+    if(pos + 12 <= cotaSuperior and self.tablero[pos + 6] == self.jugador * -1): 
+        indicePosEnColumnas = columnas[numColumna].index(pos)
+        arrayCasillasPorVerificar = columnas[numColumna][indicePosEnColumnas+1:]
+        for posActual in arrayCasillasPorVerificar:
+            fichaActual = self.tablero[posActual]
+            if(fichaActual != self.jugador):
+                posicionDeFichasPorDarVuelta.append(posActual)
+            if(fichaActual == self.jugador):
+                print('Fichas a dar vuelta: ', posicionDeFichasPorDarVuelta)
+                return True
+    return False
+  
+  def revisarHaciaArriba(self, pos):
+    numColumna = 0
+    for fila in filas:
+        if pos in fila:
+            numColumna = fila.index(pos)
+    cotaInferior = columnas[numColumna][0]
+    posicionDeFichasPorDarVuelta = []
+    #Deben haber al menos 2 espacios hacia arriba, y la ficha de la casilla de arriba debe ser del contrincante
+    if(pos - 12 >= cotaInferior and self.tablero[pos - 6] == self.jugador * -1): 
+        indicePosEnColumnas = columnas[numColumna].index(pos)
+        arrayCasillasPorVerificar = columnas[numColumna][0:indicePosEnColumnas]
+        for posActual in arrayCasillasPorVerificar.__reversed__():
+            fichaActual = self.tablero[posActual]
+            if(fichaActual != self.jugador):
+                posicionDeFichasPorDarVuelta.append(posActual)
+            if(fichaActual == self.jugador):
+                print('Fichas a dar vuelta: ', posicionDeFichasPorDarVuelta)
+                return True
+    return False
 
+  def revisarHaciaIzquierda(self, pos):
+    numFila = 0
+    for fila in filas:
+        if pos in fila:
+            numFila = filas.index(fila)
     cotaInferior = filas[numFila][0]
     posicionDeFichasPorDarVuelta = []
     #Deben haber al menos 2 espacios hacia la izquierda, y la ficha de la casilla izquierda debe ser del contrincante
     if(pos - 2 >= cotaInferior and self.tablero[pos - 1] == self.jugador * -1): 
-        cantidadCasillasPorVerificar = pos - cotaInferior - 1
-        while cantidadCasillasPorVerificar >= 0:
-            fichaActual = self.tablero[cotaInferior + cantidadCasillasPorVerificar]
+        indicePosEnColumnas = filas[numFila].index(pos)
+        arrayCasillasPorVerificar = filas[numFila][0:indicePosEnColumnas]
+        for posActual in arrayCasillasPorVerificar.__reversed__():
+            fichaActual = self.tablero[posActual]
+            if(fichaActual != self.jugador):
+              posicionDeFichasPorDarVuelta.append(posActual)
             if(fichaActual == self.jugador):
-                print('termino la revision hacia la izquierda, esta es una posible jugada')
+                print('Fichas a dar vuelta: ', posicionDeFichasPorDarVuelta)
                 return True
-            posicionDeFichasPorDarVuelta.append(cotaInferior + cantidadCasillasPorVerificar)
-            print(posicionDeFichasPorDarVuelta)
-            cantidadCasillasPorVerificar = cantidadCasillasPorVerificar - 1
     return False
-  
+
   def revisarHaciaDerecha(self, pos):
     numFila = 0
-    numColumna = 0
     for fila in filas:
         if pos in fila:
             numFila = filas.index(fila)
-            numColumna = fila.index(pos)
-
-    cotaInferior = filas[numFila][0]
     cotaSuperior = filas[numFila][-1]
     posicionDeFichasPorDarVuelta = []
     #Deben haber al menos 2 espacios hacia la derecha, y la ficha de la casilla derecha debe ser del contrincante
     if(pos + 2 <= cotaSuperior and self.tablero[pos + 1] == self.jugador * -1): 
-        if(pos == 0):
-            cantidadCasillasPorVerificar = cotaSuperior - 1
-        else:
-            cantidadCasillasPorVerificar = cotaSuperior - pos + 1
-        print(cantidadCasillasPorVerificar)
-        while cantidadCasillasPorVerificar >= 0:
-            fichaActual = self.tablero[cotaSuperior - cantidadCasillasPorVerificar]
+        indicePosEnColumnas = filas[numFila].index(pos)
+        arrayCasillasPorVerificar = filas[numFila][indicePosEnColumnas+1:]
+        for posActual in arrayCasillasPorVerificar:
+            fichaActual = self.tablero[posActual]
+            if(fichaActual != self.jugador):
+              posicionDeFichasPorDarVuelta.append(posActual)
             if(fichaActual == self.jugador):
-                print('termino la revision hacia la derecha, esta es una posible jugada')
+                print('Fichas a dar vuelta: ', posicionDeFichasPorDarVuelta)
                 return True
-            posicionDeFichasPorDarVuelta.append(cotaSuperior - cantidadCasillasPorVerificar)
-            print(posicionDeFichasPorDarVuelta)
-            cantidadCasillasPorVerificar = cantidadCasillasPorVerificar - 1
     return False
-  
+
   def generar_jugadas_posibles(self): #Acá se ve que, porque y como jugara el agente
     posibles=[]
     for i in range(tamanio): 
       if self.tablero[i]==0:
         #Al llegar a este punto, "i" es una POSIBLE jugada,
         #i será realmente una posible jugada si tambien en al menos una direccion, 
-        # de lo hay debajo/arriba/diagonal de ella, 
-        # se encuentra una ficha del jugador contrincante
+        # de lo hay debajo/arriba/diagonal de ella cumple con las condiciones de juego, 
         #DIRECCIONES: 
         # arriba
         # abajo
@@ -88,6 +116,10 @@ class JuegoGato:
         if(self.revisarHaciaIzquierda(i)):
           posibles.append(i)
         if(self.revisarHaciaDerecha(i)):
+          posibles.append(i)
+        if(self.revisarHaciaArriba(i)):
+          posibles.append(i)
+        if(self.revisarHaciaAbajo(i)):
           posibles.append(i)
     return posibles
 
@@ -124,6 +156,7 @@ class JuegoGato:
     self.tablero[jugada]=0
     self.jugador*=-1
 
+#IA
 def alfabeta(juego,etapa,alfa,beta,secuencia,secuencias):
   if juego.estado_final():
     secuencias.append(secuencia.copy())
