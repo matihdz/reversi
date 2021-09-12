@@ -29,9 +29,16 @@ diagonalesIzquierda = [
 
 tablero = [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
 jugadorActual = 1
-pos = 18
+pos = 13
 
-
+def revisarDiagonalSuperiorIzq(tablero, jugadorActual, pos):
+    numDiag = 0
+    for diagonal in diagonalesIzquierda:
+        if pos in diagonal:
+            numDiag = diagonal.index(pos)
+    cotaInferior = diagonalesIzquierda[numDiag][0]
+    print(cotaInferior)
+    posicionDeFichasPorDarVuelta = []
 def revisarHaciaAbajo(tablero, jugadorActual, pos):
     numColumna = 0
     for fila in filas:
@@ -114,6 +121,7 @@ def revisarHaciaDerecha(tablero, jugadorActual, pos):
 #print(revisarHaciaDerecha(tablero, jugadorActual, pos))
 #print(revisarHaciaArriba(tablero, jugadorActual, pos))
 #print(revisarHaciaAbajo(tablero, jugadorActual, pos))
+print(revisarDiagonalSuperiorIzq(tablero, jugadorActual, pos))
 
 
 
