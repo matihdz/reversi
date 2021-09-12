@@ -15,19 +15,6 @@ columnas = [
     [5, 11, 17, 23, 29, 35], 
 ]
 
-diagonalesDerecha = [
-    [1, 6],
-    [2, 7, 12],
-    [3, 8, 13, 18],
-    [4, 9, 14, 19, 24],
-    [5, 10, 15, 20, 25, 30],
-    [11, 16, 21, 26, 31],
-    [15, 22, 27, 32],
-    [23, 28, 33],
-    [29, 34],
-]
-
-
 diagonalesIzquierda = [
     [24, 31],
     [18, 25, 32],
@@ -40,10 +27,39 @@ diagonalesIzquierda = [
     [4, 11],
 ]
 
-tablero = [1,1,1,1,1,1,1,1,-1,1,1,1,1,-1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
-jugadorActual = 1
-pos = 18
+diagonalesDerecha = [
+    [1, 6],
+    [2, 7, 12],
+    [3, 8, 13, 18],
+    [4, 9, 14, 19, 24],
+    [5, 10, 15, 20, 25, 30],
+    [11, 16, 21, 26, 31],
+    [15, 22, 27, 32],
+    [23, 28, 33],
+    [29, 34],
+]
 
+tablero = [1,1,1,1,1,1,1,1,1,1,1,1,1,1,-1,1,1,1,1,-1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
+jugadorActual = 1
+pos = 9
+
+def revisarDiagonalInferiorIzq(tablero, jugadorActual, pos):
+    for diagonal in diagonalesDerecha:
+        if pos in diagonal:
+            arrDiagonal = diagonal
+    cotaSuperior = arrDiagonal[-1]
+    posicionDeFichasPorDarVuelta = []
+    if(pos + 10 <= cotaSuperior and tablero[pos + 5] == jugadorActual * -1):
+        indicePosEnColumnas = arrDiagonal.index(pos)
+        arrayCasillasPorVerificar = arrDiagonal[indicePosEnColumnas+1:]
+        for posActual in arrayCasillasPorVerificar:
+            fichaActual = tablero[posActual]
+            if(fichaActual != jugadorActual):
+                posicionDeFichasPorDarVuelta.append(posActual)
+            if(fichaActual == jugadorActual):
+                print('Fichas a dar vuelta: ', posicionDeFichasPorDarVuelta)
+                return True
+    return False
 def revisarDiagonalSuperiorDer(tablero, jugadorActual, pos):
     for diagonal in diagonalesDerecha:
         if pos in diagonal:
@@ -185,6 +201,7 @@ def revisarHaciaDerecha(tablero, jugadorActual, pos):
 #print(revisarDiagonalSuperiorDer(tablero, jugadorActual, pos))
 #print(revisarDiagonalSuperiorIzq(tablero, jugadorActual, pos))
 #print(revisarDiagonalInferiorDer(tablero, jugadorActual, pos))
+print(revisarDiagonalInferiorIzq(tablero, jugadorActual, pos))
 
 
 
