@@ -2,6 +2,8 @@ import test
 
 filas = test.filas
 columnas = test.columnas
+diagonalesDerecha = test.diagonalesDerecha
+diagonalesIzquierda = test.diagonalesIzquierda
 tamanio = 6*6
 class JuegoGato:
   #Comienza el raton, valor=1
@@ -17,6 +19,40 @@ class JuegoGato:
     self.ganador=None
     self.jugador=1
 
+  def revisarDiagonalSuperiorDer(self, pos):
+      for diagonal in diagonalesDerecha:
+          if pos in diagonal:
+              arrDiagonal = diagonal
+      cotaInferior = arrDiagonal[0]
+      posicionDeFichasPorDarVuelta = []
+      if(pos - 10 >= cotaInferior and self.tablero[pos - 5] == self.jugador * -1):
+          indicePosEnColumnas = arrDiagonal.index(pos)
+          arrayCasillasPorVerificar = arrDiagonal[0:indicePosEnColumnas]
+          for posActual in arrayCasillasPorVerificar.__reversed__():
+              fichaActual = self.tablero[posActual]
+              if(fichaActual != self.jugador):
+                  posicionDeFichasPorDarVuelta.append(posActual)
+              if(fichaActual == self.jugador):
+                  print('Fichas a dar vuelta: ', posicionDeFichasPorDarVuelta)
+                  return True
+      return False
+  def revisarDiagonalSuperiorIzq(self, pos):
+      for diagonal in diagonalesIzquierda:
+          if pos in diagonal:
+              arrDiagonal = diagonal
+      cotaInferior = arrDiagonal[0]
+      posicionDeFichasPorDarVuelta = []
+      if(pos - 14 >= cotaInferior and self.tablero[pos - 7] == self.jugador * -1): 
+          indicePosEnColumnas = arrDiagonal.index(pos)
+          arrayCasillasPorVerificar = arrDiagonal[0:indicePosEnColumnas]
+          for posActual in arrayCasillasPorVerificar.__reversed__():
+              fichaActual = self.tablero[posActual]
+              if(fichaActual != self.jugador):
+                  posicionDeFichasPorDarVuelta.append(posActual)
+              if(fichaActual == self.jugador):
+                  print('Fichas a dar vuelta: ', posicionDeFichasPorDarVuelta)
+                  return True
+      return False 
   def revisarHaciaAbajo(self, pos):
     numColumna = 0
     for fila in filas:
@@ -36,7 +72,6 @@ class JuegoGato:
                 print('Fichas a dar vuelta: ', posicionDeFichasPorDarVuelta)
                 return True
     return False
-  
   def revisarHaciaArriba(self, pos):
     numColumna = 0
     for fila in filas:
@@ -56,7 +91,6 @@ class JuegoGato:
                 print('Fichas a dar vuelta: ', posicionDeFichasPorDarVuelta)
                 return True
     return False
-
   def revisarHaciaIzquierda(self, pos):
     numFila = 0
     for fila in filas:
@@ -76,7 +110,6 @@ class JuegoGato:
                 print('Fichas a dar vuelta: ', posicionDeFichasPorDarVuelta)
                 return True
     return False
-
   def revisarHaciaDerecha(self, pos):
     numFila = 0
     for fila in filas:
@@ -96,7 +129,41 @@ class JuegoGato:
                 print('Fichas a dar vuelta: ', posicionDeFichasPorDarVuelta)
                 return True
     return False
-
+  def revisarDiagonalInferiorIzq(self, pos):
+    for diagonal in diagonalesDerecha:
+        if pos in diagonal:
+            arrDiagonal = diagonal
+    cotaSuperior = arrDiagonal[-1]
+    posicionDeFichasPorDarVuelta = []
+    if(pos + 10 <= cotaSuperior and self.tablero[pos + 5] == self.jugador * -1):
+        indicePosEnColumnas = arrDiagonal.index(pos)
+        arrayCasillasPorVerificar = arrDiagonal[indicePosEnColumnas+1:]
+        for posActual in arrayCasillasPorVerificar:
+            fichaActual = self.tablero[posActual]
+            if(fichaActual != self.jugador):
+                posicionDeFichasPorDarVuelta.append(posActual)
+            if(fichaActual == self.jugador):
+                print('Fichas a dar vuelta: ', posicionDeFichasPorDarVuelta)
+                return True
+    return False
+  def revisarDiagonalInferiorDer(self, pos):
+      for diagonal in diagonalesIzquierda:
+          if pos in diagonal:
+              arrDiagonal = diagonal
+      cotaSuperior = arrDiagonal[-1]
+      posicionDeFichasPorDarVuelta = []
+      if(pos + 14 <= cotaSuperior and self.tablero[pos + 7] == self.jugador * -1): 
+          indicePosEnColumnas = arrDiagonal.index(pos)
+          arrayCasillasPorVerificar = arrDiagonal[indicePosEnColumnas+1:]
+          for posActual in arrayCasillasPorVerificar:
+              fichaActual = self.tablero[posActual]
+              if(fichaActual != self.jugador):
+                  posicionDeFichasPorDarVuelta.append(posActual)
+              if(fichaActual == self.jugador):
+                  print('Fichas a dar vuelta: ', posicionDeFichasPorDarVuelta)
+                  return True
+      return False
+  
   def generar_jugadas_posibles(self): #Acá se ve que, porque y como jugara el agente
     posibles=[]
     for i in range(tamanio): 
@@ -120,6 +187,14 @@ class JuegoGato:
         if(self.revisarHaciaArriba(i)):
           posibles.append(i)
         if(self.revisarHaciaAbajo(i)):
+          posibles.append(i)
+        if(self.revisarDiagonalSuperiorDer(i)):
+          posibles.append(i)
+        if(self.revisarDiagonalSuperiorIzq(i)):
+          posibles.append(i)
+        if(self.revisarDiagonalInferiorIzq(i)):
+          posibles.append(i)
+        if(self.revisarDiagonalInferiorDer(i)):
           posibles.append(i)
     return posibles
 
