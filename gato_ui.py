@@ -53,10 +53,11 @@ class Gato:
             evento.widget["image"] = self.raton
             if not self.victoria():
                 o=[]
-                m=aisearch.alfabeta(self.juego,1,-1000,1000, [], o)
+                m=aisearch.alfabeta(self.juego,1, 5, -1000,1000, [], o)
                 #print(len(o))
-                self.juego.jugar(m[1])
-                self.botones[m[1]//tamanio][m[1]%tamanio]["image"]=self.gato
-                self.victoria()
+                if self.juego.jugar(m[1]) != None:
+                    self.juego.jugar(m[1])
+                    self.botones[m[1]//tamanio][m[1]%tamanio]["image"]=self.gato
+                    self.victoria()
 juego=Gato()
 mainloop()

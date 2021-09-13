@@ -5,18 +5,21 @@ columnas = test.columnas
 diagonalesDerecha = test.diagonalesDerecha
 diagonalesIzquierda = test.diagonalesIzquierda
 tamanio = 6*6
+ponderaciones = [16.16, -3.03, 0.99, 0.99, -3.03, 16.16, -4.12, -1.81, -0.08, -0.08, -1.81, -4.12, 1.33, -0.04, 0.51, 0.51, -0.04, 1.33, -4.12, -1.81, -0.08, -0.08, -1.81, -4.12, 1.33, -0.04, 0.51, 0.51, -0.04, 1.33, 16.16, -3.03, 0.99, 0.99, -3.03, 16.16]
+
+
 class JuegoGato:
   #Comienza el raton, valor=1
   def __init__(self,turno=1):
-    self.tablero=[0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,-1,0,0,0,0,0,-1,1,0,0,0,0,0,0,0,0,0,0,0,0,0]
+    self.tablero=[0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,-1,0,0,0,0,-1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
     self.completo=False
     self.ganador=None
     self.jugador=turno
     self.fichasPorDarVuelta=[]
+    self.valor_jugada = [-5, -1]
 
   def reiniciar(self):
-    self.tablero=[0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,-1,0,0,0,0,0,-1,1,0,0,0,0,0,0,0,0,0,0,0,0,0]
-    self.completo=False
+    self.tablero=[0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,-1,0,0,0,0,-1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
     self.ganador=None
     self.jugador=1
     self.fichasPorDarVuelta = []
@@ -25,6 +28,15 @@ class JuegoGato:
     for posFicha in self.fichasPorDarVuelta:
       self.tablero[posFicha] = self.tablero[posFicha] * -1
     self.fichasPorDarVuelta = []
+
+  def calculo_utilidad(self, i):
+    print (i)
+    if ponderaciones[i] > self.valor_jugada[0]:
+      self.valor_jugada[0] = ponderaciones[i]
+      self.valor_jugada[1] = i
+      return self.valor_jugada
+    else:
+      return self.valor_jugada
 
   def revisarDiagonalSuperiorDer(self, pos):
     arrDiagonal = []
@@ -217,6 +229,7 @@ class JuegoGato:
           posibles.append(i)
         if(self.revisarDiagonalInferiorDer(i)):
           posibles.append(i)
+    print (posibles)
     return posibles
 
   def estado_final(self):
@@ -252,44 +265,59 @@ class JuegoGato:
     self.tablero[jugada]=0
     self.jugador*=-1
 
+
+
+def aB(juego, etapa, alfa, depth, beta, secuencia, secuencias):
+  if depth == 0 or juego.estado_final():
+    secuencias.append(secuencia.copy())
+    return 
+
+
+
 #IA
-def alfabeta(juego,etapa, alfa,beta,secuencia,secuencias):
-  if juego.estado_final():
+def alfabeta(juego, etapa, depth, alfa, beta, secuencia, secuencias):
+  if juego.estado_final() and juego.calcular_utilidad() != None:
     secuencias.append(secuencia.copy())
     return [-1*juego.calcular_utilidad()]
+  elif depth == 0:
+    return [1]
   if etapa==1:
     valor=[-1000,None]
   else:
     valor=[1000,None]
   jugadas_posibles=juego.generar_jugadas_posibles()
   for jugada in jugadas_posibles:
-    juego.jugar(jugada)
-    secuencia.append(jugada)
-    opcion=alfabeta(juego, etapa*-1, alfa, beta, secuencia, secuencias)
-    if etapa==1:
-      if valor[0]<opcion[0]:
-        valor=[opcion[0],jugada]
-      if valor[0]>alfa:
-        alfa=valor[0]
-      if valor[0]>=beta:
-        juego.deshacer_jugada(jugada)
-        secuencia.pop()
-        break
-    else:
-      if valor[0]>opcion[0]:
-        valor=[opcion[0],jugada]
-      if valor[0]<beta:
-        beta=valor[0]
-      if valor[0]<=alfa:
-        juego.deshacer_jugada(jugada)
-        secuencia.pop()
-        break
-    juego.deshacer_jugada(jugada)
-    secuencia.pop()
+    if jugada != None:
+      juego.jugar(jugada)
+      secuencia.append(jugada)
+      opcion=alfabeta(juego, etapa*-1, depth - 1, alfa, beta, secuencia, secuencias)
+      if etapa==1:
+        if valor[0]<opcion[0]:
+          valor=[opcion[0],jugada]
+        if valor[0]>alfa:
+          alfa=valor[0]
+        if valor[0]>=beta:
+          juego.deshacer_jugada(jugada)
+          secuencia.pop()
+          break
+      else:
+        if valor[0]>opcion[0]:
+          valor=[opcion[0],jugada]
+        if valor[0]<beta:
+          beta=valor[0]
+        if valor[0]<=alfa:
+          juego.deshacer_jugada(jugada)
+          secuencia.pop()
+          break
+      juego.deshacer_jugada(jugada)
+      secuencia.pop()
   return valor
 
 
 if __name__ == "__main__":
   juego=JuegoGato(-1)
   o3=[]
-  r3=alfabeta(juego,-1, 5,-1000,1000,[],o3)
+  r3=alfabeta(juego,-1, 5, -1000, 1000, [], o3)
+
+
+
