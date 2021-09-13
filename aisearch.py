@@ -8,14 +8,14 @@ tamanio = 6*6
 class JuegoGato:
   #Comienza el raton, valor=1
   def __init__(self,turno=1):
-    self.tablero=[0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,-1,0,0,0,0,0,-1,1,0,0,0,0,0,0,0,0,0,0,0,0,0]
+    self.tablero=[0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,-1,0,0,0,0,-1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
     self.completo=False
     self.ganador=None
     self.jugador=turno
     self.fichasPorDarVuelta=[]
 
   def reiniciar(self):
-    self.tablero=[0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,-1,0,0,0,0,0,-1,1,0,0,0,0,0,0,0,0,0,0,0,0,0]
+    self.tablero=[0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,-1,0,0,0,0,-1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
     self.completo=False
     self.ganador=None
     self.jugador=1
@@ -23,6 +23,7 @@ class JuegoGato:
 
   def voltearFichas(self):
     for posFicha in self.fichasPorDarVuelta:
+      print(posFicha)
       self.tablero[posFicha] = self.tablero[posFicha] * -1
     self.fichasPorDarVuelta = []
 
@@ -43,9 +44,8 @@ class JuegoGato:
           posicionDeFichasPorDarVuelta.append(posActual)
           self.fichasPorDarVuelta = posicionDeFichasPorDarVuelta
         if(fichaActual == self.jugador):
-          print('Fichas a dar vuelta: ', self.fichasPorDarVuelta)
+          self.voltearFichas()
           return True
-    self.voltearFichas()
     return False
   def revisarDiagonalSuperiorIzq(self, pos):
     arrDiagonal = []
@@ -62,8 +62,9 @@ class JuegoGato:
         fichaActual = self.tablero[posActual]
         if(fichaActual != self.jugador):
           posicionDeFichasPorDarVuelta.append(posActual)
+          self.fichasPorDarVuelta = posicionDeFichasPorDarVuelta
         if(fichaActual == self.jugador):
-          print('Fichas a dar vuelta: ', posicionDeFichasPorDarVuelta)
+          self.voltearFichas()
           return True
     return False 
   def revisarHaciaAbajo(self, pos):
@@ -82,8 +83,9 @@ class JuegoGato:
         fichaActual = self.tablero[posActual]
         if(fichaActual != self.jugador):
           posicionDeFichasPorDarVuelta.append(posActual)
+          self.fichasPorDarVuelta = posicionDeFichasPorDarVuelta
         if(fichaActual == self.jugador):
-          print('Fichas a dar vuelta: ', posicionDeFichasPorDarVuelta)
+          self.voltearFichas()
           return True
     return False
   def revisarHaciaArriba(self, pos):
@@ -102,8 +104,9 @@ class JuegoGato:
         fichaActual = self.tablero[posActual]
         if(fichaActual != self.jugador):
           posicionDeFichasPorDarVuelta.append(posActual)
+          self.fichasPorDarVuelta = posicionDeFichasPorDarVuelta
         if(fichaActual == self.jugador):
-          print('Fichas a dar vuelta: ', posicionDeFichasPorDarVuelta)
+          self.voltearFichas()
           return True
     return False
   def revisarHaciaIzquierda(self, pos):
@@ -122,8 +125,9 @@ class JuegoGato:
         fichaActual = self.tablero[posActual]
         if(fichaActual != self.jugador):
           posicionDeFichasPorDarVuelta.append(posActual)
+          self.fichasPorDarVuelta = posicionDeFichasPorDarVuelta
         if(fichaActual == self.jugador):
-          print('Fichas a dar vuelta: ', posicionDeFichasPorDarVuelta)
+          self.voltearFichas()
           return True
     return False
   def revisarHaciaDerecha(self, pos):
@@ -142,8 +146,9 @@ class JuegoGato:
         fichaActual = self.tablero[posActual]
         if(fichaActual != self.jugador):
           posicionDeFichasPorDarVuelta.append(posActual)
+          self.fichasPorDarVuelta = posicionDeFichasPorDarVuelta
         if(fichaActual == self.jugador):
-          print('Fichas a dar vuelta: ', posicionDeFichasPorDarVuelta)
+          self.voltearFichas()
           return True
     return False
   def revisarDiagonalInferiorIzq(self, pos):
@@ -161,8 +166,9 @@ class JuegoGato:
         fichaActual = self.tablero[posActual]
         if(fichaActual != self.jugador):
           posicionDeFichasPorDarVuelta.append(posActual)
+          self.fichasPorDarVuelta = posicionDeFichasPorDarVuelta
         if(fichaActual == self.jugador):
-          print('Fichas a dar vuelta: ', posicionDeFichasPorDarVuelta)
+          self.voltearFichas()
           return True
     return False
   def revisarDiagonalInferiorDer(self, pos):
@@ -180,8 +186,9 @@ class JuegoGato:
         fichaActual = self.tablero[posActual]
         if(fichaActual != self.jugador):
           posicionDeFichasPorDarVuelta.append(posActual)
+          self.fichasPorDarVuelta = posicionDeFichasPorDarVuelta
         if(fichaActual == self.jugador):
-          print('Fichas a dar vuelta: ', posicionDeFichasPorDarVuelta)
+          self.voltearFichas()
           return True
     return False
   
@@ -189,18 +196,6 @@ class JuegoGato:
     posibles=[]
     for i in range(tamanio): 
       if self.tablero[i]==0:
-        #Al llegar a este punto, "i" es una POSIBLE jugada,
-        #i será realmente una posible jugada si tambien en al menos una direccion, 
-        # de lo hay debajo/arriba/diagonal de ella cumple con las condiciones de juego, 
-        #DIRECCIONES: 
-        # arriba
-        # abajo
-        # izquierda
-        # derecha
-        # diagonal superior izquierda
-        # diagonal superior derecha
-        # diagonal inferior izquierda
-        # diagonal inferior derecha
         if(self.revisarHaciaIzquierda(i)):
           posibles.append(i)
         if(self.revisarHaciaDerecha(i)):
@@ -221,25 +216,22 @@ class JuegoGato:
 
   def estado_final(self):
     self.evaluar()
-    if self.ganador is not None or self.completo:
+    if self.completo:
       return True
     else:
       return False
 
-  def evaluar(self): #Acá se ve que, porque y como jugara el agente
+  def evaluar(self):
     if 0 not in self.tablero:
       self.completo=True
     else:
       self.completo=False
-    if self.completo:
-      if(self.tablero.count(1) > self.tablero.count(-1)):
-        self.ganador=1
-      elif(self.tablero.count(1) == self.tablero.count(-1)):
-        self.ganador=0
-      else:
-        self.ganador=-1
+    if(self.tablero.count(1) > self.tablero.count(-1)):
+      self.ganador=1
+    elif(self.tablero.count(1) == self.tablero.count(-1)):
+      self.ganador=0
     else:
-      self.ganador=None
+      self.ganador=-1
 
   def calcular_utilidad(self):
     return self.ganador
@@ -253,8 +245,21 @@ class JuegoGato:
     self.jugador*=-1
 
 #IA
-def alfabeta(juego,etapa, alfa,beta,secuencia,secuencias):
-  if juego.estado_final():
+def alfabeta(depth, juego, etapa, alfa, beta, secuencia, secuencias):
+  print(juego.tablero)
+  jugadas_posibles = juego.generar_jugadas_posibles()
+  print(juego.tablero)
+  print(jugadas_posibles)
+  return [-1000, None]
+  # doing error: Está transformando todos las fichas a blancas (agente), pero funciona
+  # correctamente el metodo "generar_jugadas_posibles"
+  # to fix: Reflejar cambios de "backend" (que estan correctos) en la GUI (interfaz)
+  #1 objetivo: Que funcione el agente al azar
+  #2 objetivo: Que funcione el agente con sistema de puntos/ depth / etc
+    
+
+""" def alfabeta(depth, juego, etapa, alfa, beta, secuencia, secuencias):
+  if depth == 0 or juego.estado_final():
     secuencias.append(secuencia.copy())
     return [-1*juego.calcular_utilidad()]
   if etapa==1:
@@ -265,7 +270,7 @@ def alfabeta(juego,etapa, alfa,beta,secuencia,secuencias):
   for jugada in jugadas_posibles:
     juego.jugar(jugada)
     secuencia.append(jugada)
-    opcion=alfabeta(juego, etapa*-1, alfa, beta, secuencia, secuencias)
+    opcion=alfabeta(depth -1 ,juego, etapa*-1, alfa, beta, secuencia, secuencias)
     if etapa==1:
       if valor[0]<opcion[0]:
         valor=[opcion[0],jugada]
@@ -286,10 +291,9 @@ def alfabeta(juego,etapa, alfa,beta,secuencia,secuencias):
         break
     juego.deshacer_jugada(jugada)
     secuencia.pop()
-  return valor
-
+  return valor """
 
 if __name__ == "__main__":
   juego=JuegoGato(-1)
   o3=[]
-  r3=alfabeta(juego,-1, 5,-1000,1000,[],o3)
+  r3=alfabeta(5,juego,-1,-1000,1000,[],o3)

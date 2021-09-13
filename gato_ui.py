@@ -12,9 +12,9 @@ class Gato:
         self.raton=PhotoImage(file="./resources/usuario.png")
         self.vacio=PhotoImage(file="./resources/vacio.png")
         self.juego=aisearch.JuegoGato()
-        for i in range(tamanio):
+        for i in range(6):
             fila=[]
-            for j in range(tamanio):
+            for j in range(6):
                 if (i == 2 and j == 2):
                     b1 = Button(self.principal, image=self.raton, width="80", height="80")
                 elif (i == 2 and j == 3):
@@ -41,22 +41,31 @@ class Gato:
             else:
                 messagebox.showinfo("Juego del Gato", "Has perdido")
             self.juego.reiniciar()
-            for i in range(tamanio):
-                for j in range(tamanio):
-                    self.botones[i][j]["image"] = self.vacio
+            for i in range(6):
+                for j in range(6):
+                    if (i == 2 and j == 2):
+                        self.botones[i][j]["image"] = self.raton
+                    elif (i == 2 and j == 3):
+                        self.botones[i][j]["image"] = self.gato
+                    elif (i == 3 and j == 2):
+                        self.botones[i][j]["image"] = self.gato
+                    elif (i == 3 and j == 3):
+                        self.botones[i][j]["image"] = self.raton
+                    else:
+                        self.botones[i][j]["image"] = self.vacio
             return True
         else:
             return False
     def click(self,evento):
-        if self.juego.tablero[evento.widget.x * tamanio + evento.widget.y]==0:
-            self.juego.jugar(evento.widget.x * tamanio + evento.widget.y)
+        if self.juego.tablero[evento.widget.x * 6 + evento.widget.y]==0:
+            self.juego.jugar(evento.widget.x * 6 + evento.widget.y)
             evento.widget["image"] = self.raton
             if not self.victoria():
                 o=[]
-                m=aisearch.alfabeta(self.juego,1,-1000,1000, [], o)
+                m=aisearch.alfabeta(10, self.juego, 1,-1000, 1000, [], o)
                 #print(len(o))
                 self.juego.jugar(m[1])
-                self.botones[m[1]//tamanio][m[1]%tamanio]["image"]=self.gato
+                self.botones[m[1]//6][m[1]%6]["image"]=self.gato
                 self.victoria()
 juego=Gato()
 mainloop()

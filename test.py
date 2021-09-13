@@ -40,7 +40,7 @@ diagonalesDerecha = [
 tablero = [1,1,1,1,1,1,1,1,1,1,1,1,1,1,-1,1,1,1,1,-1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
 jugadorActual = 1
 pos = 9
-
+'''
 def revisarDiagonalInferiorIzq(tablero, jugadorActual, pos):
     for diagonal in diagonalesDerecha:
         if pos in diagonal:
@@ -186,7 +186,7 @@ def revisarHaciaDerecha(tablero, jugadorActual, pos):
                 print('Fichas a dar vuelta: ', posicionDeFichasPorDarVuelta)
                 return True
     return False
-
+'''
 #print(revisarHaciaIzquierda(tablero, jugadorActual, pos))
 #print(revisarHaciaDerecha(tablero, jugadorActual, pos))
 #print(revisarHaciaArriba(tablero, jugadorActual, pos))
@@ -194,7 +194,7 @@ def revisarHaciaDerecha(tablero, jugadorActual, pos):
 #print(revisarDiagonalSuperiorDer(tablero, jugadorActual, pos))
 #print(revisarDiagonalSuperiorIzq(tablero, jugadorActual, pos))
 #print(revisarDiagonalInferiorDer(tablero, jugadorActual, pos))
-print(revisarDiagonalInferiorIzq(tablero, jugadorActual, pos))
+#print(revisarDiagonalInferiorIzq(tablero, jugadorActual, pos))
 
 
 
