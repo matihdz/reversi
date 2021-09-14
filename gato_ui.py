@@ -12,25 +12,28 @@ class Gato:
         self.raton=PhotoImage(file="./resources/usuario.png")
         self.vacio=PhotoImage(file="./resources/vacio.png")
         self.juego=aisearch.JuegoGato()
+        k = 0
+        self.actualizar_tablero()
+
+    def actualizar_tablero(self):
+        k = 0
         for i in range(6):
             fila=[]
             for j in range(6):
-                if (i == 2 and j == 2):
-                    b1 = Button(self.principal, image=self.raton, width="80", height="80")
-                elif (i == 2 and j == 3):
-                    b1 = Button(self.principal, image=self.gato, width="80", height="80")
-                elif (i == 3 and j == 2):
-                    b1 = Button(self.principal, image=self.gato, width="80", height="80")
-                elif (i == 3 and j == 3):
-                    b1 = Button(self.principal, image=self.raton, width="80", height="80")
-                else:
+                if (self.juego.tablero[k] == 0):
                     b1=Button(self.principal,image=self.vacio,width="80",height="80")
+                elif (self.juego.tablero[k] == 1):
+                    b1 = Button(self.principal, image=self.raton, width="80", height="80")
+                elif (self.juego.tablero[k] == -1):
+                    b1 = Button(self.principal, image=self.gato, width="80", height="80")
                 b1.bind("<Button-1>",self.click)
                 b1.x=i
                 b1.y=j
                 b1.grid(row=i,column=j)
                 fila.append(b1)
+                k += 1
             self.botones.append(fila)
+
 
     def victoria(self):
         if self.juego.estado_final():
@@ -40,32 +43,29 @@ class Gato:
                 messagebox.showinfo("Juego del Gato", "Empate")
             else:
                 messagebox.showinfo("Juego del Gato", "Has perdido")
-            self.juego.reiniciar()
-            for i in range(6):
-                for j in range(6):
-                    if (i == 2 and j == 2):
-                        self.botones[i][j]["image"] = self.raton
-                    elif (i == 2 and j == 3):
-                        self.botones[i][j]["image"] = self.gato
-                    elif (i == 3 and j == 2):
-                        self.botones[i][j]["image"] = self.gato
-                    elif (i == 3 and j == 3):
-                        self.botones[i][j]["image"] = self.raton
-                    else:
-                        self.botones[i][j]["image"] = self.vacio
+            aisearch.JuegoGato.reiniciar(self.juego)
+            self.actualizar_tablero()           
             return True
         else:
             return False
+
     def click(self,evento):
+        aj = None
+        print(self.juego.tablero)
         if self.juego.tablero[evento.widget.x * 6 + evento.widget.y]==0:
+            '''jugadasPosibles = self.juego.generar_jugadas_posibles()
+            if self.juego in jugadasPosibles:'''
             self.juego.jugar(evento.widget.x * 6 + evento.widget.y)
-            evento.widget["image"] = self.raton
+            self.actualizar_tablero()
             if not self.victoria():
                 o=[]
                 m=aisearch.alfabeta(10, self.juego, 1,-1000, 1000, [], o)
-                #print(len(o))
+                print (m)
                 self.juego.jugar(m[1])
-                self.botones[m[1]//6][m[1]%6]["image"]=self.gato
+                self.actualizar_tablero()
                 self.victoria()
+                aj = self.juego.voltearF(m[1])
+                print (aj)
+        print(self.juego.tablero)
 juego=Gato()
 mainloop()
