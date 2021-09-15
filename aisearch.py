@@ -22,10 +22,10 @@ class JuegoGato:
     self.fichasPorDarVuelta = []
 
   def voltearFichas(self):
-    '''for posFicha in self.fichasPorDarVuelta:
+    for posFicha in self.fichasPorDarVuelta:
       print(posFicha)
       self.tablero[posFicha] = self.tablero[posFicha] * -1
-    self.fichasPorDarVuelta = []'''
+    self.fichasPorDarVuelta = []
 
   def voltearFichas2(self):
     for posFicha in self.fichasPorDarVuelta:
@@ -46,9 +46,6 @@ class JuegoGato:
       lista_fichas_por_voltear.append(self.tablero[ficha + dist_diagonal])
       self.func_busqueda_recursiva_posibles(self, diagonal, ficha, dist_diagonal-5)
     
-
-
-
 
     '''if self.tablero[pos] == 0:
       if self.tablero[diagonal[1]] == self.jugador*-1:
@@ -76,7 +73,6 @@ class JuegoGato:
           posicionDeFichasPorDarVuelta.append(posActual)
           self.fichasPorDarVuelta = posicionDeFichasPorDarVuelta
         if(fichaActual == self.jugador):
-          self.voltearFichas()
           return True
     return False
   def revisarDiagonalSuperiorIzq(self, pos):
@@ -96,7 +92,6 @@ class JuegoGato:
           posicionDeFichasPorDarVuelta.append(posActual)
           self.fichasPorDarVuelta = posicionDeFichasPorDarVuelta
         if(fichaActual == self.jugador):
-          self.voltearFichas()
           return True
     return False
   def revisarHaciaAbajo(self, pos):
@@ -117,7 +112,6 @@ class JuegoGato:
           posicionDeFichasPorDarVuelta.append(posActual)
           self.fichasPorDarVuelta = posicionDeFichasPorDarVuelta
         if(fichaActual == self.jugador):
-          self.voltearFichas()
           return True
     return False
   def revisarHaciaArriba(self, pos):
@@ -138,7 +132,6 @@ class JuegoGato:
           posicionDeFichasPorDarVuelta.append(posActual)
           self.fichasPorDarVuelta = posicionDeFichasPorDarVuelta
         if(fichaActual == self.jugador):
-          self.voltearFichas()
           return True
     return False
   def revisarHaciaIzquierda(self, pos):
@@ -159,7 +152,6 @@ class JuegoGato:
           posicionDeFichasPorDarVuelta.append(posActual)
           self.fichasPorDarVuelta = posicionDeFichasPorDarVuelta
         if(fichaActual == self.jugador):
-          self.voltearFichas()
           return True
     return False
   def revisarHaciaDerecha(self, pos):
@@ -180,7 +172,6 @@ class JuegoGato:
           posicionDeFichasPorDarVuelta.append(posActual)
           self.fichasPorDarVuelta = posicionDeFichasPorDarVuelta
         if(fichaActual == self.jugador):
-          self.voltearFichas()
           return True
     return False
   def revisarDiagonalInferiorIzq(self, pos):
@@ -200,7 +191,6 @@ class JuegoGato:
           posicionDeFichasPorDarVuelta.append(posActual)
           self.fichasPorDarVuelta = posicionDeFichasPorDarVuelta
         if(fichaActual == self.jugador):
-          self.voltearFichas()
           return True
     return False
   def revisarDiagonalInferiorDer(self, pos):
@@ -220,7 +210,6 @@ class JuegoGato:
           posicionDeFichasPorDarVuelta.append(posActual)
           self.fichasPorDarVuelta = posicionDeFichasPorDarVuelta
         if(fichaActual == self.jugador):
-          self.voltearFichas()
           return True
     return False
   
@@ -228,7 +217,7 @@ class JuegoGato:
     posibles=[]
     for i in range(tamanio): 
       if self.tablero[i]==0:
-        self.func_busqueda_recursiva_posibles(self.definicion_diagonal(i), i, -5)
+        '''self.func_busqueda_recursiva_posibles(self.definicion_diagonal(i), i, -5)'''
         if(self.revisarHaciaIzquierda(i)):
           posibles.append(i)
         if(self.revisarHaciaDerecha(i)):
@@ -237,14 +226,14 @@ class JuegoGato:
           posibles.append(i)
         if(self.revisarHaciaAbajo(i)):
           posibles.append(i)
-        '''if(self.revisarDiagonalSuperiorDer(i)):
+        if(self.revisarDiagonalSuperiorDer(i)):
           posibles.append(i)
         if(self.revisarDiagonalSuperiorIzq(i)):
           posibles.append(i)
         if(self.revisarDiagonalInferiorIzq(i)):
           posibles.append(i)
         if(self.revisarDiagonalInferiorDer(i)):
-          posibles.append(i)'''
+          posibles.append(i)
     print(posibles)
     return posibles
 
@@ -325,6 +314,7 @@ def alfabeta(depth, juego, etapa, alfa, beta, secuencia, secuencias):
         break
     juego.deshacer_jugada(jugada)
     secuencia.pop()
+  juego.voltearFichas()
   return valor
 
 if __name__ == "__main__":
