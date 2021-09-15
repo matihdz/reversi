@@ -59,7 +59,7 @@ class Gato:
             self.actualizar_tablero()
             if not self.victoria():
                 o=[]
-                m=aisearch.alfabeta(10, self.juego, 1,-1000, 1000, [], o)
+                m = aisearch.alfabeta2(10, self.juego, 1,-1000, 1000, [], o)
                 print (m)
                 self.juego.jugar(m[1])
                 self.actualizar_tablero()

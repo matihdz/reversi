@@ -271,15 +271,19 @@ class JuegoGato:
 def alfabeta2(depth, juego, etapa, alfa, beta, secuencia, secuencias):
   print(juego.tablero)
   jugadas_posibles = juego.generar_jugadas_posibles()
-  print(juego.tablero)
-  print(jugadas_posibles)
-  return [-1000, None]
-  # doing error: Está transformando todos las fichas a blancas (agente), pero funciona
+  juego.voltearFichas()
+  return [-1000, jugadas_posibles[0]]
+
   # correctamente el metodo "generar_jugadas_posibles"
-  # to fix: Reflejar cambios de "backend" (que estan correctos) en la GUI (interfaz)
   #1 objetivo: Que funcione el agente al azar
   #2 objetivo: Que funcione el agente con sistema de puntos/ depth / etc
-    
+
+
+
+
+
+
+
 
 def alfabeta(depth, juego, etapa, alfa, beta, secuencia, secuencias):
   if depth == 0 or juego.estado_final():
