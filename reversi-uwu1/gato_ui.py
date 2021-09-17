@@ -50,19 +50,41 @@ class Gato:
             return False
 
     def click(self,evento):
-        print(self.juego.tablero)
-        if self.juego.tablero[evento.widget.x * 6 + evento.widget.y]==0:
-            '''jugadasPosibles = self.juego.generar_jugadas_posibles()
-            if self.juego in jugadasPosibles:'''
-            self.juego.jugar(evento.widget.x * 6 + evento.widget.y)
-            self.actualizar_tablero()
-            if not self.victoria():
-                o=[]
-                m = aisearch.alfabeta2(10, self.juego, 1,-1000, 1000, [], o)
-                print (m)
-                self.juego.jugar(m[1])
-                self.actualizar_tablero()
-                self.victoria()
-        print(self.juego.tablero)
+        ficha_jugador = evento.widget.x * 6 + evento.widget.y
+        if self.juego.tablero[ficha_jugador]==0:
+            jugadas_posibles = self.juego.generar_jugadas_posibles()
+            ficha_jugador = ficha_jugador
+            if len(jugadas_posibles) != 0:
+                if ficha_jugador in jugadas_posibles:
+                    self.juego.jugar(ficha_jugador)
+                    print(self.juego.voltearFichas())
+                    self.actualizar_tablero()
+                    j = 6
+                    for i in range(6):
+                        print(self.juego.tablero[j-6:j])
+                        j += 6
+                    if not self.victoria():
+                        o=[]
+                        m = aisearch.alfabeta2(10, self.juego, 1,-1000, 1000, [], o)
+                        print (m)
+                        self.juego.jugar(m[1])
+                        self.actualizar_tablero()
+                        self.victoria()
+            if len(jugadas_posibles) == 0:
+                self.juego.jugador = -1
+                if not self.victoria():
+                    o=[]
+                    m = aisearch.alfabeta2(10, self.juego, 1,-1000, 1000, [], o)
+                    if len(m) == 2:
+                        print (m)
+                        self.juego.jugar(m[1])
+                        self.actualizar_tablero()
+                        self.victoria()
+            else:
+                self.victoria()           
+        j = 6
+        for i in range(6):
+            print(self.juego.tablero[j-6:j])
+            j += 6
 juego=Gato()
 mainloop()
