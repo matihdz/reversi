@@ -1,0 +1,67 @@
+import aisearch
+from tkinter import *
+from tkinter import messagebox
+class Reversi:
+    def __init__(self):
+        self.principal = Tk()
+        self.principal.title("Reversi")
+        self.botones=[]
+        self.agente=PhotoImage(file="./resources/agente.png")
+        self.usuario=PhotoImage(file="./resources/usuario.png")
+        self.vacio=PhotoImage(file="./resources/vacio.png")
+        self.juego=aisearch.JuegoReversi()
+        self.actualizar_tablero()
+
+    def actualizar_tablero(self):
+        k = 0
+        for i in range(6):
+            fila=[]
+            for j in range(6):
+                if (self.juego.tablero[k] == 0):
+                    b1=Button(self.principal,image=self.vacio,width="80",height="80")
+                elif (self.juego.tablero[k] == 1):
+                    b1 = Button(self.principal, image=self.usuario, width="80", height="80")
+                elif (self.juego.tablero[k] == -1):
+                    b1 = Button(self.principal, image=self.agente, width="80", height="80")
+                b1.bind("<Button-1>",self.click)
+                b1.x=i
+                b1.y=j
+                b1.grid(row=i,column=j)
+                fila.append(b1)
+                k += 1
+            self.botones.append(fila)
+
+
+    def victoria(self):
+        if self.juego.estado_final():
+            if self.juego.ganador == 1:
+                messagebox.showinfo("Reversi", "Has ganado!")
+            elif self.juego.ganador == 0:
+                messagebox.showinfo("Reversi", "Empate")
+            else:
+                messagebox.showinfo("Reversi", "Has perdido")
+            self.juego.reiniciar()
+            self.actualizar_tablero()           
+            return True
+        else:
+            return False
+
+    def click(self,evento):
+        ficha_jugador = evento.widget.x * 6 + evento.widget.y
+        if self.juego.tablero[ficha_jugador]==0:
+            jugadas_posibles = self.juego.generar_jugadas_posibles()
+            if len(jugadas_posibles) != 0:
+                for jugada in jugadas_posibles:
+                    if ficha_jugador == jugada[0]:
+                        self.juego.jugar(ficha_jugador)
+                        self.juego.fichasPorDarVuelta = jugada[1]
+                        self.juego.voltearFichas()
+                        self.actualizar_tablero()
+                        if not self.victoria():
+                            o=[]
+                            m = aisearch.alfabeta2(10, self.juego, 1,-1000, 1000, [], o)
+                            self.juego.jugar(m[1])
+                            self.juego.voltearFichas()
+                            self.actualizar_tablero()
+juego=Reversi()
+mainloop()
