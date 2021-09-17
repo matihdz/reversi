@@ -324,13 +324,6 @@ def alfabeta2(depth, juego, etapa, alfa, beta, secuencia, secuencias):
   #1 objetivo: Que funcione el agente al azar
   #2 objetivo: Que funcione el agente con sistema de puntos/ depth / etc
 
-
-
-
-
-
-
-
 def alfabeta(depth, juego, etapa, alfa, beta, secuencia, secuencias):
   if depth == 0 or juego.estado_final():
     secuencias.append(secuencia.copy())
