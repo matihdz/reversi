@@ -1,16 +1,16 @@
 filas = [
-    [0, 1, 2, 3, 4, 5],
-    [6, 7, 8, 9, 10, 11],
+    [0,   1,  2,  3,  4,  5],
+    [6,   7,  8,  9, 10, 11],
     [12, 13, 14, 15, 16, 17],
     [18, 19, 20, 21, 22, 23],
     [24, 25, 26, 27, 28, 29],
     [30, 31, 32, 33, 34, 35],
 ]
 columnas = [
-    [0, 6, 12, 18, 24, 30], 
-    [1, 7, 13, 19, 25, 31], 
-    [2, 8, 14, 20, 26, 32], 
-    [3, 9, 15, 21, 27, 33], 
+    [0,  6, 12, 18, 24, 30], 
+    [1,  7, 13, 19, 25, 31], 
+    [2,  8, 14, 20, 26, 32], 
+    [3,  9, 15, 21, 27, 33], 
     [4, 10, 16, 22, 28, 34], 
     [5, 11, 17, 23, 29, 35], 
 ]
@@ -23,19 +23,16 @@ diagonalesIzquierda = [
     [2, 9, 16, 23],
     [3, 10, 17],
 ]
-
-
-
+print (int(33%6))
 diagonalesDerecha = [
     [2, 7, 12],
     [3, 8, 13, 18],
     [4, 9, 14, 19, 24],
     [5, 10, 15, 20, 25, 30],
     [11, 16, 21, 26, 31],
-    [15, 22, 27, 32],
+    [17, 22, 27, 32],
     [23, 28, 33],
 ]
-
 tablero = [1,1,1,1,1,1,1,1,1,1,1,1,1,1,-1,1,1,1,1,-1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
 jugadorActual = 1
 pos = 9
@@ -194,9 +191,6 @@ def revisarHaciaDerecha(tablero, jugadorActual, pos):
 #print(revisarDiagonalSuperiorIzq(tablero, jugadorActual, pos))
 #print(revisarDiagonalInferiorDer(tablero, jugadorActual, pos))
 #print(revisarDiagonalInferiorIzq(tablero, jugadorActual, pos))
-
-
-
 
 
 
