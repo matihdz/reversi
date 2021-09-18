@@ -1,3 +1,4 @@
+from _typeshed import ReadableBuffer
 import test
 
 filas = test.filas
@@ -55,7 +56,7 @@ class JuegoGato:
   
   def asignar_lineas(self, pos):
     
-    f = pos/6
+    f = int(pos/6)
     c = pos%6
     fila = filas[f]
     columna = columnas[c]
@@ -63,41 +64,45 @@ class JuegoGato:
     columnaIndex = columna.index(pos)
     arrDiagonalD = []
     arrDiagonalI = []
+    listaConLineas = []
+
+    restoEntre7 = pos % 7
+    restoEntre10 = pos % 10
 
     if filaIndex == columnaIndex:
       arrDiagonalI = diagonalesIzquierda[3]
-      if filaIndex > 0 and filaIndex < 5:
-        arrDiagonalD = diagonalesDerecha[filaIndex]
-    elif pos != 0 and pos%5 == 0:
-      arrDiagonalD = diagonalesDerecha[3]
-      if filaIndex > 0 and filaIndex < 5:
-        
-        arrDiagonalI = diagonalesIzquierda[filaIndex-1]
-
-    if filaIndex > 0 and pos not in [13,19,25,20,25,26,27]:
-      if filaIndex == columnaIndex - 1:
-        arrDiagonalI = diagonalesIzquierda[4]
-      elif filaIndex == columnaIndex - 2:
-        arrDiagonalI = diagonalesIzquierda[5]
-      elif filaIndex == columnaIndex - 3:
-        arrDiagonalI = diagonalesIzquierda[6]
-
-      elif filaIndex - 1 == columnaIndex:
-        arrDiagonalD = diagonalesDerecha[2]
-      elif filaIndex - 2 == columnaIndex:
-        arrDiagonalD = diagonalesDerecha[1]
-
-
+    elif restoEntre7 == 4:
+      arrDiagonalI == diagonalesIzquierda[0]
+    elif restoEntre7 == 5:
+      arrDiagonalI = diagonalesIzquierda[1]
+    elif restoEntre7 == 6:
+      arrDiagonalI = diagonalesIzquierda[2]
+    elif restoEntre7 == 1:
+      arrDiagonalI == diagonalesIzquierda[4]
+    elif restoEntre7 == 2:
+      arrDiagonalI == diagonalesIzquierda[5]
+    elif restoEntre7 == 3:
+      arrDiagonalI == diagonalesIzquierda[6]
     
 
-    elif pos > 1 and pos < 4:
-      if pos == 2:
+    if pos % 5 == 0 and pos != 35:
+      arrDiagonalD = diagonalesDerecha[3]
+    elif pos < 23 or pos == 24:
+      if restoEntre10 == 2 or restoEntre10 == 7:
         arrDiagonalD = diagonalesDerecha[0]
-        arrDiagonalI = diagonalesIzquierda[5]
-      if pos == 3:
+      elif restoEntre10 == 3 or restoEntre10 == 8:
         arrDiagonalD = diagonalesDerecha[1]
-        arrDiagonalI = diagonalesIzquierda[6]
-
+      elif restoEntre10 == 4 or restoEntre10 == 9:
+        arrDiagonalD = diagonalesDerecha[2]
+    elif restoEntre10 == 1 or restoEntre10 == 6:
+      arrDiagonalD = diagonalesDerecha[4]
+    elif restoEntre10 == 2 or restoEntre10 == 7:
+      arrDiagonalD = diagonalesDerecha[5]
+    elif restoEntre10 == 3 or restoEntre10 == 8:
+      arrDiagonalD = diagonalesDerecha[6]
+    
+    listaConLineas.append(fila,columna,arrDiagonalD,arrDiagonalI)
+    print(listaConLineas)
 
 
   def revisarDiagonalSuperiorDer(self, pos):

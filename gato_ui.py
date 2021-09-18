@@ -51,6 +51,7 @@ class Gato:
 
     def click(self,evento):
         ficha_jugador = evento.widget.x * 6 + evento.widget.y
+        juego.asignar_lineas(ficha_jugador)
         if self.juego.tablero[ficha_jugador]==0:
             jugadas_posibles = self.juego.generar_jugadas_posibles()
             ficha_jugador = ficha_jugador
