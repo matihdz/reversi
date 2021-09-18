@@ -34,6 +34,10 @@ class Reversi:
 
 
     def victoria(self):
+        #fix: cuando entra al if por "self.agenteYusuarioSinJugadasPosibles", no determina ganador, ya que no
+        #pasa por "self.juego.estado_final()"
+        #fix2: solo cuando el tablero está completo se termina el juego? es realmente la unica condicion de parada?
+        #(evaluar 'fix2'!!)
         if self.juego.estado_final() or self.agenteYusuarioSinJugadasPosibles:
             if self.juego.ganador == 1:
                 messagebox.showinfo("Reversi", "Has ganado!")
