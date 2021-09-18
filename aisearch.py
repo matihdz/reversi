@@ -12,13 +12,15 @@ class JuegoReversi:
     self.ganador=None
     self.jugador=turno
     self.fichasPorDarVuelta=[]
+    self.agenteYusuarioSinJugadasPosibles=False
 
-  def reiniciar(self, turno=1):
+  def reiniciar(self):
     self.tablero=[0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,-1,0,0,0,0,-1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
     self.completo=False
     self.ganador=None
-    self.jugador=turno
+    self.jugador=1
     self.fichasPorDarVuelta = []
+    self.agenteYusuarioSinJugadasPosibles=False
 
   def voltearFichas(self):
     for posFicha in self.fichasPorDarVuelta:
@@ -174,7 +176,7 @@ class JuegoReversi:
           return [True, posicionDeFichasPorDarVuelta]
     return [False, []]
   
-  def generar_jugadas_posibles(self): #Acá se ve que, porque y como jugara el agente
+  def generar_jugadas_posibles(self):
     posibles=[]
     for i in range(tamanio): 
       if self.tablero[i]==0:
@@ -205,18 +207,18 @@ class JuegoReversi:
     return posibles
 
   def estado_final(self):
-    self.evaluar()
-    if self.completo:
+    self.evaluar(False)
+    if self.completo or self.agenteYusuarioSinJugadasPosibles:
       return True
     else:
       return False
 
-  def evaluar(self):
+  def evaluar(self, depthTerminado):
     if 0 not in self.tablero:
       self.completo=True
     else:
       self.completo=False
-    if self.completo:
+    if self.completo or self.agenteYusuarioSinJugadasPosibles or depthTerminado:
       if(self.tablero.count(1) > self.tablero.count(-1)):
         self.ganador=1
       elif(self.tablero.count(1) == self.tablero.count(-1)):
@@ -236,11 +238,36 @@ class JuegoReversi:
     self.jugador*=-1
 
 #IA
-def alfabeta2(depth, juego, etapa, alfa, beta, secuencia, secuencias):
+def minimax(depth, juego,etapa,secuencia,secuencias):
+  depth -= 1
+  if juego.estado_final() or depth == 0:
+    if(depth == 0):
+      juego.evaluar(True)
+    secuencias.append(secuencia.copy())
+    return [-1*juego.calcular_utilidad()]
+  if etapa==1:
+    valor=[-1000,None]
+  else:
+    valor=[1000,None]
+  jugadas_posibles=juego.generar_jugadas_posibles()
+  for jugada in jugadas_posibles:
+    juego.jugar(jugada[0])
+    secuencia.append(jugada[0])
+    opcion=minimax(depth, juego, etapa*-1, secuencia, secuencias)
+    #maximizar
+    if etapa==1:
+      if valor[0]<opcion[0]:
+        valor=[opcion[0],jugada[0],jugada[1]]
+    else:
+    #minimizar
+      if valor[0]>opcion[0]:
+        valor=[opcion[0],jugada[0],jugada[1]]
+    juego.deshacer_jugada(jugada[0])
+    secuencia.pop()
+  return valor
+
+""" def alfabetaAzar(juego):
   jugadas_posibles = juego.generar_jugadas_posibles()
-  if len(jugadas_posibles) != 0:
-    jugadaSeleccionadaAlAzar = jugadas_posibles[0]
-    juego.fichasPorDarVuelta = jugadaSeleccionadaAlAzar[1]
-    return [juego.jugador, jugadaSeleccionadaAlAzar[0]]
-  elif len(jugadas_posibles) == 0:
-    return []
+  jugadaSeleccionadaAlAzar = jugadas_posibles[0]
+  juego.fichasPorDarVuelta = jugadaSeleccionadaAlAzar[1]
+  return [juego.jugador, jugadaSeleccionadaAlAzar[0]] """
