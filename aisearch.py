@@ -67,10 +67,11 @@ class JuegoGato:
     if filaIndex == columnaIndex:
       arrDiagonalI = diagonalesIzquierda[3]
       if filaIndex > 0 and filaIndex < 5:
-        arrDiagonalD = diagonalesDerecha[filaIndex-1]
+        arrDiagonalD = diagonalesDerecha[filaIndex]
     elif pos != 0 and pos%5 == 0:
       arrDiagonalD = diagonalesDerecha[3]
       if filaIndex > 0 and filaIndex < 5:
+        
         arrDiagonalI = diagonalesIzquierda[filaIndex-1]
 
     if filaIndex > 0 and pos not in [13,19,25,20,25,26,27]:
