@@ -17,7 +17,7 @@
    - Valor 6 es _dificultad alta_
    - Valor 4 es _dificultad media_
    - Valor 2 es _dificultad baja_
-     _Los valores pueden aumentar su espectro si optimizamos el algoritmo, por ejemplo, pasando de minimax a alfabeta_
+   Los valores pueden aumentar su espectro si optimizamos el algoritmo, por ejemplo, pasando de minimax a alfabeta
 
 ## FALTA:
 
