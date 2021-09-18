@@ -1,4 +1,3 @@
-from _typeshed import ReadableBuffer
 import test
 
 filas = test.filas
@@ -69,39 +68,47 @@ class JuegoGato:
     restoEntre7 = pos % 7
     restoEntre10 = pos % 10
 
-    if filaIndex == columnaIndex:
-      arrDiagonalI = diagonalesIzquierda[3]
-    elif restoEntre7 == 4:
-      arrDiagonalI == diagonalesIzquierda[0]
-    elif restoEntre7 == 5:
-      arrDiagonalI = diagonalesIzquierda[1]
-    elif restoEntre7 == 6:
-      arrDiagonalI = diagonalesIzquierda[2]
-    elif restoEntre7 == 1:
-      arrDiagonalI == diagonalesIzquierda[4]
-    elif restoEntre7 == 2:
-      arrDiagonalI == diagonalesIzquierda[5]
-    elif restoEntre7 == 3:
-      arrDiagonalI == diagonalesIzquierda[6]
+    if pos not in [4, 5, 11, 24, 30, 31]:
+      if filaIndex == columnaIndex:
+        arrDiagonalI = diagonalesIzquierda[3]
+      elif restoEntre7 == 4:
+        arrDiagonalI = diagonalesIzquierda[0]
+      elif restoEntre7 == 5:
+        arrDiagonalI = diagonalesIzquierda[1]
+      elif restoEntre7 == 6:
+        arrDiagonalI = diagonalesIzquierda[2]
+      elif restoEntre7 == 1:
+        arrDiagonalI = diagonalesIzquierda[4]
+      elif restoEntre7 == 2:
+        arrDiagonalI = diagonalesIzquierda[5]
+      elif restoEntre7 == 3:
+        arrDiagonalI = diagonalesIzquierda[6]
     
-
-    if pos % 5 == 0 and pos != 35:
-      arrDiagonalD = diagonalesDerecha[3]
-    elif pos < 23 or pos == 24:
-      if restoEntre10 == 2 or restoEntre10 == 7:
-        arrDiagonalD = diagonalesDerecha[0]
-      elif restoEntre10 == 3 or restoEntre10 == 8:
-        arrDiagonalD = diagonalesDerecha[1]
-      elif restoEntre10 == 4 or restoEntre10 == 9:
+    
+    if pos not in [0, 1, 6, 29, 34, 35]:
+      if pos % 5 == 0 and pos != 35:
+        arrDiagonalD = diagonalesDerecha[3]
+      else:
+        if restoEntre10 == 2 or restoEntre10 == 7:
+          if pos < 22 or pos == 24 and pos != 17:
+            arrDiagonalD = diagonalesDerecha[0]
+          elif pos > 21 and pos != 24 or pos == 17:
+            arrDiagonalD = diagonalesDerecha[5]
+        elif restoEntre10 == 3 or restoEntre10 == 8:  
+          if pos < 22:
+            arrDiagonalD = diagonalesDerecha[1]
+          elif pos > 21:
+            arrDiagonalD = diagonalesDerecha[6]
+      if restoEntre10 == 4 or restoEntre10 == 9:
         arrDiagonalD = diagonalesDerecha[2]
-    elif restoEntre10 == 1 or restoEntre10 == 6:
-      arrDiagonalD = diagonalesDerecha[4]
-    elif restoEntre10 == 2 or restoEntre10 == 7:
-      arrDiagonalD = diagonalesDerecha[5]
-    elif restoEntre10 == 3 or restoEntre10 == 8:
-      arrDiagonalD = diagonalesDerecha[6]
+      elif restoEntre10 == 1 or restoEntre10 == 6:
+        arrDiagonalD = diagonalesDerecha[4]
     
-    listaConLineas.append(fila,columna,arrDiagonalD,arrDiagonalI)
+    
+    listaConLineas.append(fila)
+    listaConLineas.append(columna)
+    listaConLineas.append(arrDiagonalD)
+    listaConLineas.append(arrDiagonalI)
     print(listaConLineas)
 
 

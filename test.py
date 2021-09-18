@@ -23,7 +23,7 @@ diagonalesIzquierda = [
     [2, 9, 16, 23],
     [3, 10, 17],
 ]
-print (12%10)
+print (16%7)
 diagonalesDerecha = [
     [2, 7, 12],
     [3, 8, 13, 18],
