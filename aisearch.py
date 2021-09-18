@@ -13,11 +13,11 @@ class JuegoReversi:
     self.jugador=turno
     self.fichasPorDarVuelta=[]
 
-  def reiniciar(self):
+  def reiniciar(self, turno=1):
     self.tablero=[0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,-1,0,0,0,0,-1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
     self.completo=False
     self.ganador=None
-    self.jugador=1
+    self.jugador=turno
     self.fichasPorDarVuelta = []
 
   def voltearFichas(self):
@@ -216,12 +216,13 @@ class JuegoReversi:
       self.completo=True
     else:
       self.completo=False
-    if(self.tablero.count(1) > self.tablero.count(-1)):
-      self.ganador=1
-    elif(self.tablero.count(1) == self.tablero.count(-1)):
-      self.ganador=0
-    else:
-      self.ganador=-1
+    if self.completo:
+      if(self.tablero.count(1) > self.tablero.count(-1)):
+        self.ganador=1
+      elif(self.tablero.count(1) == self.tablero.count(-1)):
+        self.ganador=0
+      else:
+        self.ganador=-1
 
   def calcular_utilidad(self):
     return self.ganador
@@ -241,3 +242,5 @@ def alfabeta2(depth, juego, etapa, alfa, beta, secuencia, secuencias):
     jugadaSeleccionadaAlAzar = jugadas_posibles[0]
     juego.fichasPorDarVuelta = jugadaSeleccionadaAlAzar[1]
     return [juego.jugador, jugadaSeleccionadaAlAzar[0]]
+  elif len(jugadas_posibles) == 0:
+    return []

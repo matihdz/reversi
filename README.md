@@ -8,6 +8,7 @@
 
 # FALTA:
 
-1. Al reiniciar la partida se ponen fichas de más
-2. Hay momentos en los que se pueden-hacer(jugador)/hacen(agente) jugadas ilegales (ocurre pocas veces, la wea rara)
-3. Por ahora, el agente hace la primera jugada posible que encuentra (implementar algoritmo)
+1. El tablero tiene que estar completo para ganar? realmente es la unica condicion de termino?
+2. Al reiniciar la partida se ponen fichas de más
+3. Hay momentos en los que se pueden-hacer(jugador)/hacen(agente) jugadas ilegales (ocurre pocas veces, la wea rara)
+4. Por ahora, el agente hace la primera jugada posible que encuentra (implementar algoritmo)

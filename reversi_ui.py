@@ -10,6 +10,7 @@ class Reversi:
         self.usuario=PhotoImage(file="./resources/usuario.png")
         self.vacio=PhotoImage(file="./resources/vacio.png")
         self.juego=aisearch.JuegoReversi()
+        self.agenteYusuarioSinJugadasPosibles = False
         self.actualizar_tablero()
 
     def actualizar_tablero(self):
@@ -33,24 +34,37 @@ class Reversi:
 
 
     def victoria(self):
-        if self.juego.estado_final():
+        if self.juego.estado_final() or self.agenteYusuarioSinJugadasPosibles:
             if self.juego.ganador == 1:
                 messagebox.showinfo("Reversi", "Has ganado!")
             elif self.juego.ganador == 0:
                 messagebox.showinfo("Reversi", "Empate")
             else:
                 messagebox.showinfo("Reversi", "Has perdido")
+            self.agenteYusuarioSinJugadasPosibles = False
             self.juego.reiniciar()
             self.actualizar_tablero()           
             return True
         else:
             return False
 
+    def agenteJuegaDeNuevo(self):
+        m = aisearch.alfabeta2(10, self.juego, 1,-1000, 1000, [], [])
+        if(m):
+            self.juego.jugar(m[1])
+            self.juego.voltearFichas()
+            self.actualizar_tablero()
+            self.victoria()
+        else:
+            print('El agente y el usuario no tienen jugadas posibles, se termina el encuentro')
+            self.agenteYusuarioSinJugadasPosibles = True
+            self.victoria()
+
     def click(self,evento):
-        ficha_jugador = evento.widget.x * 6 + evento.widget.y
-        if self.juego.tablero[ficha_jugador]==0:
-            jugadas_posibles = self.juego.generar_jugadas_posibles()
-            if len(jugadas_posibles) != 0:
+        jugadas_posibles = self.juego.generar_jugadas_posibles()
+        if len(jugadas_posibles) != 0:
+            ficha_jugador = evento.widget.x * 6 + evento.widget.y
+            if self.juego.tablero[ficha_jugador]==0:
                 for jugada in jugadas_posibles:
                     if ficha_jugador == jugada[0]:
                         self.juego.jugar(ficha_jugador)
@@ -58,10 +72,23 @@ class Reversi:
                         self.juego.voltearFichas()
                         self.actualizar_tablero()
                         if not self.victoria():
-                            o=[]
-                            m = aisearch.alfabeta2(10, self.juego, 1,-1000, 1000, [], o)
-                            self.juego.jugar(m[1])
-                            self.juego.voltearFichas()
-                            self.actualizar_tablero()
+                            m = aisearch.alfabeta2(10, self.juego, 1,-1000, 1000, [], [])
+                            if(m):
+                                self.juego.jugar(m[1])
+                                self.juego.voltearFichas()
+                                self.actualizar_tablero()
+                                self.victoria()
+                            else:
+                                print('El agente no tiene jugadas posibles, turno del usuario')
+                                self.juego.jugador*=-1
+                                return
+            else:
+                print('Tienes que jugar la ficha en una casilla vacia')
+        elif len(jugadas_posibles) == 0:
+            print('El usuario no tiene jugadas posibles, turno del agente')
+            self.juego.jugador*=-1
+            self.agenteJuegaDeNuevo()
+
+
 juego=Reversi()
 mainloop()
