@@ -62,8 +62,9 @@ class Reversi:
 
     def click(self,evento):
         jugadas_posibles = self.juego.generar_jugadas_posibles()
-        if len(jugadas_posibles) != 0:
+        if jugadas_posibles:
             ficha_jugador = evento.widget.x * 6 + evento.widget.y
+            print("jugador", self.juego.asignar_lineas(ficha_jugador))
             if self.juego.tablero[ficha_jugador]==0:
                 for jugada in jugadas_posibles:
                     if ficha_jugador == jugada[0]:
@@ -74,7 +75,9 @@ class Reversi:
                         if not self.victoria():
                             m = aisearch.alfabeta2(10, self.juego, 1,-1000, 1000, [], [])
                             if(m):
+                                print("agente", self.juego.asignar_lineas(m[1]))
                                 self.juego.jugar(m[1])
+                                
                                 self.juego.voltearFichas()
                                 self.actualizar_tablero()
                                 self.victoria()
@@ -84,7 +87,7 @@ class Reversi:
                                 return
             else:
                 print('Tienes que jugar la ficha en una casilla vacia')
-        elif len(jugadas_posibles) == 0:
+        elif not jugadas_posibles:
             print('El usuario no tiene jugadas posibles, turno del agente')
             self.juego.jugador*=-1
             self.agenteJuegaDeNuevo()

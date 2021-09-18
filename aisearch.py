@@ -25,150 +25,168 @@ class JuegoReversi:
       self.tablero[posFicha] = self.tablero[posFicha] * -1
     self.fichasPorDarVuelta = []
 
-  def revisarDiagonalSuperiorDer(self, pos):
-    arrDiagonal = []
-    cotaInferior = None
-    for diagonal in diagonalesDerecha:
-      if pos in diagonal:
-        arrDiagonal = diagonal
-        cotaInferior = arrDiagonal[0]
+  def asignar_lineas(self, pos):
+    
+    f = int(pos/6)
+    c = pos%6
+    fila = filas[f]
+    columna = columnas[c]
+    arrDiagonalD = []
+    arrDiagonalI = []
+    listaConLineas = []
+
+    restoEntre7 = pos % 7
+    restoEntre10 = pos % 10
+
+    if pos not in [4, 5, 11, 24, 30, 31]:
+      if fila.index(pos) == columna.index(pos):
+        arrDiagonalI = diagonalesIzquierda[3]
+      elif restoEntre7 == 4:
+        arrDiagonalI = diagonalesIzquierda[0]
+      elif restoEntre7 == 5:
+        arrDiagonalI = diagonalesIzquierda[1]
+      elif restoEntre7 == 6:
+        arrDiagonalI = diagonalesIzquierda[2]
+      elif restoEntre7 == 1:
+        arrDiagonalI = diagonalesIzquierda[4]
+      elif restoEntre7 == 2:
+        arrDiagonalI = diagonalesIzquierda[5]
+      elif restoEntre7 == 3:
+        arrDiagonalI = diagonalesIzquierda[6]
+    
+    
+    if pos not in [0, 1, 6, 29, 34, 35]:
+      if pos % 5 == 0 and pos != 35:
+        arrDiagonalD = diagonalesDerecha[3]
+      else:
+        if restoEntre10 == 2 or restoEntre10 == 7:
+          if (pos < 22 or pos == 24) and pos != 17:
+            arrDiagonalD = diagonalesDerecha[0]
+          elif (pos > 21 and pos != 24) or pos == 17:
+            arrDiagonalD = diagonalesDerecha[5]
+        elif restoEntre10 == 3 or restoEntre10 == 8:  
+          if pos < 22:
+            arrDiagonalD = diagonalesDerecha[1]
+          elif pos > 21:
+            arrDiagonalD = diagonalesDerecha[6]
+        if restoEntre10 == 4 or restoEntre10 == 9:
+          arrDiagonalD = diagonalesDerecha[2]
+        elif restoEntre10 == 1 or restoEntre10 == 6:
+          arrDiagonalD = diagonalesDerecha[4]
+    
+    
+    listaConLineas.append(fila)
+    listaConLineas.append(columna)
+    listaConLineas.append(arrDiagonalD)
+    listaConLineas.append(arrDiagonalI)
+    return listaConLineas
+
+  def revisarDiagonalSuperiorDer(self, arrDiagonal, pos):
+    cotaInferior = arrDiagonal[0]
     posicionDeFichasPorDarVuelta = []
     if(cotaInferior != None and pos - 10 >= cotaInferior and self.tablero[pos - 5] == self.jugador * -1):
       indicePosEnColumnas = arrDiagonal.index(pos)
       arrayCasillasPorVerificar = arrDiagonal[0:indicePosEnColumnas]
       for posActual in arrayCasillasPorVerificar.__reversed__():
         fichaActual = self.tablero[posActual]
-        if(fichaActual != self.jugador and fichaActual != 0):
+        if(fichaActual != self.jugador):
           posicionDeFichasPorDarVuelta.append(posActual)
         if(fichaActual == self.jugador):
           return [True, posicionDeFichasPorDarVuelta]
     return [False, []]
-  def revisarDiagonalSuperiorIzq(self, pos):
-    arrDiagonal = []
-    cotaInferior = None
-    for diagonal in diagonalesIzquierda:
-      if pos in diagonal:
-        arrDiagonal = diagonal
-        cotaInferior = arrDiagonal[0]
+  def revisarDiagonalSuperiorIzq(self, arrDiagonal, pos):
+    cotaInferior = arrDiagonal[0]
     posicionDeFichasPorDarVuelta = []
     if(cotaInferior != None and pos - 14 >= cotaInferior and self.tablero[pos - 7] == self.jugador * -1): 
       indicePosEnColumnas = arrDiagonal.index(pos)
       arrayCasillasPorVerificar = arrDiagonal[0:indicePosEnColumnas]
       for posActual in arrayCasillasPorVerificar.__reversed__():
         fichaActual = self.tablero[posActual]
-        if(fichaActual != self.jugador and fichaActual != 0):
+        if(fichaActual != self.jugador):
           posicionDeFichasPorDarVuelta.append(posActual)
         if(fichaActual == self.jugador):
           return [True, posicionDeFichasPorDarVuelta]
     return [False, []]
-  def revisarHaciaAbajo(self, pos):
-    numColumna = 0
+  def revisarHaciaAbajo(self, columna, pos):
     cotaSuperior = None
-    for fila in filas:
-      if pos in fila:
-        numColumna = fila.index(pos)
-        cotaSuperior = columnas[numColumna][-1]
+    cotaSuperior = columna[-1]
     posicionDeFichasPorDarVuelta = []
     #Deben haber al menos 2 espacios hacia abajo, y la ficha de la casilla de abajo debe ser del contrincante
     if(cotaSuperior != None and pos + 12 <= cotaSuperior and self.tablero[pos + 6] == self.jugador * -1): 
-      indicePosEnColumnas = columnas[numColumna].index(pos)
-      arrayCasillasPorVerificar = columnas[numColumna][indicePosEnColumnas+1:]
+      indicePosEnColumnas = columna.index(pos)
+      arrayCasillasPorVerificar = columna[indicePosEnColumnas+1:]
       for posActual in arrayCasillasPorVerificar:
         fichaActual = self.tablero[posActual]
-        if(fichaActual != self.jugador and fichaActual != 0):
+        if(fichaActual != self.jugador):
           posicionDeFichasPorDarVuelta.append(posActual)
         if(fichaActual == self.jugador):
           return [True, posicionDeFichasPorDarVuelta]
     return [False, []]
-  def revisarHaciaArriba(self, pos):
-    numColumna = 0
-    cotaInferior = None
-    for fila in filas:
-      if pos in fila:
-        numColumna = fila.index(pos)
-        cotaInferior = columnas[numColumna][0]
+  def revisarHaciaArriba(self, columna, pos):
+    cotaInferior = columna[0]
     posicionDeFichasPorDarVuelta = []
     #Deben haber al menos 2 espacios hacia arriba, y la ficha de la casilla de arriba debe ser del contrincante
     if(cotaInferior != None and pos - 12 >= cotaInferior and self.tablero[pos - 6] == self.jugador * -1): 
-      indicePosEnColumnas = columnas[numColumna].index(pos)
-      arrayCasillasPorVerificar = columnas[numColumna][0:indicePosEnColumnas]
+      indicePosEnColumnas = columna.index(pos)
+      arrayCasillasPorVerificar = columna[0:indicePosEnColumnas]
       for posActual in arrayCasillasPorVerificar.__reversed__():
         fichaActual = self.tablero[posActual]
-        if(fichaActual != self.jugador and fichaActual != 0):
+        if(fichaActual != self.jugador):
           posicionDeFichasPorDarVuelta.append(posActual)
         if(fichaActual == self.jugador):
           return [True, posicionDeFichasPorDarVuelta]
     return [False, []]
-  def revisarHaciaIzquierda(self, pos):
+  def revisarHaciaIzquierda(self, fila, pos):
     numFila = 0
-    cotaInferior = None
-    for fila in filas:
-      if pos in fila:
-        numFila = filas.index(fila)
-        cotaInferior = filas[numFila][0]
+    cotaInferior = fila[0]
     posicionDeFichasPorDarVuelta = []
     #Deben haber al menos 2 espacios hacia la izquierda, y la ficha de la casilla izquierda debe ser del contrincante
     if(cotaInferior != None and pos - 2 >= cotaInferior and self.tablero[pos - 1] == self.jugador * -1): 
-      indicePosEnColumnas = filas[numFila].index(pos)
-      arrayCasillasPorVerificar = filas[numFila][0:indicePosEnColumnas]
+      indicePosEnColumnas = fila.index(pos)
+      arrayCasillasPorVerificar = fila[0:indicePosEnColumnas]
       for posActual in arrayCasillasPorVerificar.__reversed__():
         fichaActual = self.tablero[posActual]
-        if(fichaActual != self.jugador and fichaActual != 0):
+        if(fichaActual != self.jugador):
           posicionDeFichasPorDarVuelta.append(posActual)
         if(fichaActual == self.jugador):
           return [True, posicionDeFichasPorDarVuelta]
     return [False, []]
-  def revisarHaciaDerecha(self, pos):
-    numFila = 0
-    cotaSuperior = None
-    for fila in filas:
-      if pos in fila:
-        numFila = filas.index(fila)
-        cotaSuperior = filas[numFila][-1]
+  def revisarHaciaDerecha(self, fila, pos):
+    cotaSuperior = fila[-1]
     posicionDeFichasPorDarVuelta = []
     #Deben haber al menos 2 espacios hacia la derecha, y la ficha de la casilla derecha debe ser del contrincante
     if(cotaSuperior != None and pos + 2 <= cotaSuperior and self.tablero[pos + 1] == self.jugador * -1): 
-      indicePosEnColumnas = filas[numFila].index(pos)
-      arrayCasillasPorVerificar = filas[numFila][indicePosEnColumnas+1:]
+      indicePosEnColumnas = fila.index(pos)
+      arrayCasillasPorVerificar = fila[indicePosEnColumnas+1:]
       for posActual in arrayCasillasPorVerificar:
         fichaActual = self.tablero[posActual]
-        if(fichaActual != self.jugador and fichaActual != 0):
+        if(fichaActual != self.jugador):
           posicionDeFichasPorDarVuelta.append(posActual)
         if(fichaActual == self.jugador):
           return [True, posicionDeFichasPorDarVuelta]
     return [False, []]
-  def revisarDiagonalInferiorIzq(self, pos):
-    arrDiagonal = []
-    cotaSuperior = None
-    for diagonal in diagonalesDerecha:
-      if pos in diagonal:
-        arrDiagonal = diagonal
-        cotaSuperior = arrDiagonal[-1]
+  def revisarDiagonalInferiorIzq(self, arrDiagonal, pos):
+    cotaSuperior = arrDiagonal[-1]
     posicionDeFichasPorDarVuelta = []
     if(cotaSuperior != None and pos + 10 <= cotaSuperior and self.tablero[pos + 5] == self.jugador * -1):
       indicePosEnColumnas = arrDiagonal.index(pos)
       arrayCasillasPorVerificar = arrDiagonal[indicePosEnColumnas+1:]
       for posActual in arrayCasillasPorVerificar:
         fichaActual = self.tablero[posActual]
-        if(fichaActual != self.jugador and fichaActual != 0):
+        if(fichaActual != self.jugador):
           posicionDeFichasPorDarVuelta.append(posActual)
         if(fichaActual == self.jugador):
           return [True, posicionDeFichasPorDarVuelta]
     return [False, []]
-  def revisarDiagonalInferiorDer(self, pos):
-    arrDiagonal = []
-    cotaSuperior = None
-    for diagonal in diagonalesIzquierda:
-      if pos in diagonal:
-        arrDiagonal = diagonal
-        cotaSuperior = arrDiagonal[-1]
+  def revisarDiagonalInferiorDer(self, arrDiagonal, pos):
+    cotaSuperior = arrDiagonal[-1]
     posicionDeFichasPorDarVuelta = []
     if(cotaSuperior != None and pos + 14 <= cotaSuperior and self.tablero[pos + 7] == self.jugador * -1): 
       indicePosEnColumnas = arrDiagonal.index(pos)
       arrayCasillasPorVerificar = arrDiagonal[indicePosEnColumnas+1:]
       for posActual in arrayCasillasPorVerificar:
         fichaActual = self.tablero[posActual]
-        if(fichaActual != self.jugador and fichaActual != 0):
+        if(fichaActual != self.jugador):
           posicionDeFichasPorDarVuelta.append(posActual)
         if(fichaActual == self.jugador):
           return [True, posicionDeFichasPorDarVuelta]
@@ -178,29 +196,37 @@ class JuegoReversi:
     posibles=[]
     for i in range(tamanio): 
       if self.tablero[i]==0:
-        revisarHaciaIzquierda = self.revisarHaciaIzquierda(i)
-        revisarHaciaDerecha = self.revisarHaciaDerecha(i)
-        revisarHaciaArriba = self.revisarHaciaArriba(i)
-        revisarHaciaAbajo = self.revisarHaciaAbajo(i)
-        revisarDiagonalSuperiorDer = self.revisarDiagonalSuperiorDer(i)
-        revisarDiagonalSuperiorIzq = self.revisarDiagonalSuperiorIzq(i)
-        revisarDiagonalInferiorIzq = self.revisarDiagonalInferiorIzq(i)
-        revisarDiagonalInferiorDer = self.revisarDiagonalInferiorDer(i)
-        if(revisarHaciaIzquierda[0]):
+        listaArreglos = self.asignar_lineas(i)
+        revisarHaciaIzquierda = self.revisarHaciaIzquierda(listaArreglos[0], i)
+        revisarHaciaDerecha = self.revisarHaciaDerecha(listaArreglos[0], i)
+        revisarHaciaArriba = self.revisarHaciaArriba(listaArreglos[1], i)
+        revisarHaciaAbajo = self.revisarHaciaAbajo(listaArreglos[1], i)
+        revisarDiagonalSuperiorDer = []
+        revisarDiagonalInferiorDer = []
+        revisarDiagonalSuperiorIzq = []
+        revisarDiagonalInferiorIzq = []
+        if listaArreglos[2]:
+          revisarDiagonalSuperiorDer = self.revisarDiagonalSuperiorDer(listaArreglos[2], i)
+          revisarDiagonalInferiorDer = self.revisarDiagonalInferiorDer(listaArreglos[2], i)
+        if listaArreglos[3]:
+          revisarDiagonalSuperiorIzq = self.revisarDiagonalSuperiorIzq(listaArreglos[3], i)
+          revisarDiagonalInferiorIzq = self.revisarDiagonalInferiorIzq(listaArreglos[3], i)
+          
+        if(revisarHaciaIzquierda and revisarHaciaIzquierda[0]):
           posibles.append([i, revisarHaciaIzquierda[1]])
-        if(revisarHaciaDerecha[0]):
+        if(revisarHaciaDerecha and revisarHaciaDerecha[0]):
           posibles.append([i, revisarHaciaDerecha[1]])
-        if(revisarHaciaArriba[0]):
+        if(revisarHaciaArriba and revisarHaciaArriba[0]):
           posibles.append([i, revisarHaciaArriba[1]])
-        if(revisarHaciaAbajo[0]):
+        if(revisarHaciaAbajo and revisarHaciaAbajo[0]):
           posibles.append([i, revisarHaciaAbajo[1]])
-        if(revisarDiagonalSuperiorDer[0]):
+        if(revisarDiagonalSuperiorDer and revisarDiagonalSuperiorDer[0]):
           posibles.append([i, revisarDiagonalSuperiorDer[1]])
-        if(revisarDiagonalSuperiorIzq[0]):
+        if(revisarDiagonalSuperiorIzq and revisarDiagonalSuperiorIzq[0]):
           posibles.append([i, revisarDiagonalSuperiorIzq[1]])
-        if(revisarDiagonalInferiorIzq[0]):
+        if(revisarDiagonalInferiorIzq and revisarDiagonalInferiorIzq[0]):
           posibles.append([i, revisarDiagonalInferiorIzq[1]])
-        if(revisarDiagonalInferiorDer[0]):
+        if(revisarDiagonalInferiorDer and revisarDiagonalInferiorDer[0]):
           posibles.append([i, revisarDiagonalInferiorDer[1]])
     return posibles
 
@@ -238,8 +264,8 @@ class JuegoReversi:
 #IA
 def alfabeta2(depth, juego, etapa, alfa, beta, secuencia, secuencias):
   jugadas_posibles = juego.generar_jugadas_posibles()
-  if len(jugadas_posibles) != 0:
-    jugadaSeleccionadaAlAzar = jugadas_posibles[0]
+  if jugadas_posibles:
+    jugadaSeleccionadaAlAzar = jugadas_posibles[1]
     juego.fichasPorDarVuelta = jugadaSeleccionadaAlAzar[1]
     return [juego.jugador, jugadaSeleccionadaAlAzar[0]]
   elif len(jugadas_posibles) == 0:
