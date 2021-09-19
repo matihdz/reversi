@@ -17,13 +17,13 @@
    - Valor 6 es _dificultad alta_
    - Valor 4 es _dificultad media_
    - Valor 2 es _dificultad baja_
-   Los valores pueden aumentar su espectro si optimizamos el algoritmo, por ejemplo, pasando de minimax a alfabeta
+     Los valores pueden aumentar su espectro si optimizamos el algoritmo, por ejemplo, pasando de minimax a alfabeta
 
 ## FALTA:
 
 1. El tablero tiene que estar completo para ganar? realmente es la unica condicion de termino? (ARREGLADO)
 2. Hay momentos en los que se pueden-hacer(jugador)/hacen(agente) jugadas ilegales (ARREGLADO)
-3. Al reiniciar la partida se ponen fichas de más
+3. Al reiniciar la partida se ponen fichas de más (VEREMOS)
 4. Cuando el usuario no tiene jugadas posibles necesita hacer click para continuar el juego y darle
    el turno al agente, debería pasar enseguida sin necesidad de hacer click
 5. Interfaz para seleccionar el nivel de dificultad
