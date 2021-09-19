@@ -19,11 +19,11 @@ class Reversi:
             fila=[]
             for j in range(6):
                 if (self.juego.tablero[k] == 0):
-                    b1=Button(self.principal,image=self.vacio,width="80",height="80")
+                    b1=Button(master = self.principal,image=self.vacio,width="80",height="80")
                 elif (self.juego.tablero[k] == 1):
-                    b1 = Button(self.principal, image=self.usuario, width="80", height="80")
+                    b1 = Button(master = self.principal, image=self.usuario, width="80", height="80")
                 elif (self.juego.tablero[k] == -1):
-                    b1 = Button(self.principal, image=self.agente, width="80", height="80")
+                    b1 = Button(master = self.principal, image=self.agente, width="80", height="80")
                 b1.bind("<Button-1>",self.click)
                 b1.x=i
                 b1.y=j
@@ -32,6 +32,15 @@ class Reversi:
                 k += 1
             self.botones.append(fila)
 
+    def ventanaDificultad(self):
+        self.ventana = Tk()
+        self.ventana.geometry("200x400")
+        self.botonBasica = Button(master = self.ventana, width = 40, height = 30)
+        self.botonMedia = Button(master = self.ventana, width = 40, height = 30)
+        self.botonAlta = Button(master = self.ventana, width = 40, height = 30)
+        self.botonBasica.pack()
+        self.botonMedia.pack()
+        self.botonAlta.pack()
 
     def victoria(self):
         if self.juego.estado_final():
@@ -95,5 +104,6 @@ class Reversi:
             self.agenteJuegaDeNuevo()
 
 
+ventana = Reversi().ventanaDificultad()
 juego=Reversi()
 mainloop()
