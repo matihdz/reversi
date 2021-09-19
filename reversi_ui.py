@@ -6,12 +6,13 @@ class Reversi:
         self.principal = Tk()
         self.principal.title("Reversi")
         self.botones=[]
-        self.dificultadPorProfundidad = 6
+        self.dificultadPorProfundidad = 4
         self.agente=PhotoImage(file="./resources/agente.png")
         self.usuario=PhotoImage(file="./resources/usuario.png")
         self.vacio=PhotoImage(file="./resources/vacio.png")
         self.juego=aisearch.JuegoReversi()
         self.actualizar_tablero()
+        self.ventanaDificultad()
 
     def actualizar_tablero(self):
         k = 0
@@ -42,10 +43,29 @@ class Reversi:
             else:
                 messagebox.showinfo("Reversi", "Has perdido")
             self.juego.reiniciar()
-            self.actualizar_tablero()           
+            self.actualizar_tablero()        
+            self.ventanaDificultad()    
             return True
         else:
             return False
+    
+    def ventanaDificultad(self):
+        self.ventana = Tk()
+        self.ventana.geometry("300x300")
+        self.ventana.configure(bg = "grey")
+        self.textoEtiqueta = "Seleccione la dificultad. (Dificultad baja seleccionada por defecto)"
+        boton1 = Button(self.ventana, bg = "lightblue", text = 'Baja', padx = 60, pady = 20, command = lambda: self.setDificultad(4))
+        boton2 = Button(self.ventana, bg = "orange", text = 'Media', padx = 60, pady = 20, command = lambda: self.setDificultad(5))
+        boton3 = Button(self.ventana, bg = "red", text = 'Alta', padx = 60, pady = 20, command = lambda: self.setDificultad(6))
+        boton4 = Button(self.ventana, bg = "lightgreen", text = '¡A jugar!', padx = 60, pady = 20, command = self.ventana.destroy)
+        boton1.pack()
+        boton2.pack()
+        boton3.pack()
+        boton4.pack()
+    
+    def setDificultad(self, i):
+        self.dificultadPorProfundidad = i
+        self.ventana.destroy
 
     def agenteJuegaDeNuevo(self):
         jugadas_posibles = self.juego.generar_jugadas_posibles()

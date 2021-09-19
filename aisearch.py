@@ -265,9 +265,3 @@ def minimax(depth, juego,etapa,secuencia,secuencias):
     juego.deshacer_jugada(jugada[0])
     secuencia.pop()
   return valor
-
-""" def alfabetaAzar(juego):
-  jugadas_posibles = juego.generar_jugadas_posibles()
-  jugadaSeleccionadaAlAzar = jugadas_posibles[0]
-  juego.fichasPorDarVuelta = jugadaSeleccionadaAlAzar[1]
-  return [juego.jugador, jugadaSeleccionadaAlAzar[0]] """
