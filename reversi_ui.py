@@ -78,11 +78,16 @@ class Reversi:
                             if len(jugadas_posibles) != 0:
                                 #m = aisearch.alfabetaAzar(self.juego)
                                 m=aisearch.minimax(self.dificultadPorProfundidad, self.juego, 1, [], [])
-                                self.juego.jugar(m[1])
-                                self.juego.fichasPorDarVuelta = m[2]
-                                self.juego.voltearFichas()
-                                self.actualizar_tablero()
-                                self.victoria()
+                                if(m[1] != None):
+                                    self.juego.jugar(m[1])
+                                    self.juego.fichasPorDarVuelta = m[2]
+                                    self.juego.voltearFichas()
+                                    self.actualizar_tablero()
+                                    self.victoria()
+                                else:
+                                    print('El agente no tiene jugadas posibles, turno del usuario')
+                                    self.juego.jugador*=-1
+                                    return
                             elif len(jugadas_posibles) == 0:
                                 print('El agente no tiene jugadas posibles, turno del usuario')
                                 self.juego.jugador*=-1
