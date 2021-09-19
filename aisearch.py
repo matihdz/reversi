@@ -226,6 +226,7 @@ class JuegoReversi:
       else:
         self.ganador=-1
 
+
   def calcular_utilidad(self):
     return self.ganador
 
