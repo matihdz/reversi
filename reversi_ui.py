@@ -10,8 +10,10 @@ class Reversi:
         self.usuario=PhotoImage(file="./resources/usuario.png")
         self.vacio=PhotoImage(file="./resources/vacio.png")
         self.juego=aisearch.JuegoReversi()
+        self.juego.asignar_lineas()
         self.agenteYusuarioSinJugadasPosibles = False
         self.actualizar_tablero()
+
 
     def actualizar_tablero(self):
         k = 0

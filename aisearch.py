@@ -4,6 +4,7 @@ columnas = helpers.columnas
 diagonalesDerecha = helpers.diagonalesDerecha
 diagonalesIzquierda = helpers.diagonalesIzquierda
 tamanio = 6*6
+listaArreglos = []
 class JuegoReversi:
   #Comienza el raton, valor=1
   def __init__(self,turno=1):
@@ -11,7 +12,10 @@ class JuegoReversi:
     self.completo=False
     self.ganador=None
     self.jugador=turno
+    self.listaArreglos = []
+    self.conjuntosPorPosicion = self.asignar_lineas()
     self.fichasPorDarVuelta=[]
+    print (self.conjuntosPorPosicion)
 
   def reiniciar(self, turno=1):
     self.tablero=[0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,-1,0,0,0,0,-1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
@@ -25,61 +29,64 @@ class JuegoReversi:
       self.tablero[posFicha] = self.tablero[posFicha] * -1
     self.fichasPorDarVuelta = []
 
-  def asignar_lineas(self, pos):
-    
-    f = int(pos/6)
-    c = pos%6
-    fila = filas[f]
-    columna = columnas[c]
-    arrDiagonalD = []
-    arrDiagonalI = []
-    listaConLineas = []
+  def asignar_lineas(self):
+    conjuntoDeListas = []
+    for pos in range(36):
+      f = int(pos/6)
+      c = pos%6
+      fila = filas[f]
+      columna = columnas[c]
+      arrDiagonalD = []
+      arrDiagonalI = []
+      listaConLineas = []
 
-    restoEntre7 = pos % 7
-    restoEntre10 = pos % 10
+      restoEntre7 = pos % 7
+      restoEntre10 = pos % 10
 
-    if pos not in [4, 5, 11, 24, 30, 31]:
-      if fila.index(pos) == columna.index(pos):
-        arrDiagonalI = diagonalesIzquierda[3]
-      elif restoEntre7 == 4:
-        arrDiagonalI = diagonalesIzquierda[0]
-      elif restoEntre7 == 5:
-        arrDiagonalI = diagonalesIzquierda[1]
-      elif restoEntre7 == 6:
-        arrDiagonalI = diagonalesIzquierda[2]
-      elif restoEntre7 == 1:
-        arrDiagonalI = diagonalesIzquierda[4]
-      elif restoEntre7 == 2:
-        arrDiagonalI = diagonalesIzquierda[5]
-      elif restoEntre7 == 3:
-        arrDiagonalI = diagonalesIzquierda[6]
-    
-    
-    if pos not in [0, 1, 6, 29, 34, 35]:
-      if pos % 5 == 0 and pos != 35:
-        arrDiagonalD = diagonalesDerecha[3]
-      else:
-        if restoEntre10 == 2 or restoEntre10 == 7:
-          if (pos < 22 or pos == 24) and pos != 17:
-            arrDiagonalD = diagonalesDerecha[0]
-          elif (pos > 21 and pos != 24) or pos == 17:
-            arrDiagonalD = diagonalesDerecha[5]
-        elif restoEntre10 == 3 or restoEntre10 == 8:  
-          if pos < 22:
-            arrDiagonalD = diagonalesDerecha[1]
-          elif pos > 21:
-            arrDiagonalD = diagonalesDerecha[6]
-        if restoEntre10 == 4 or restoEntre10 == 9:
-          arrDiagonalD = diagonalesDerecha[2]
-        elif restoEntre10 == 1 or restoEntre10 == 6:
-          arrDiagonalD = diagonalesDerecha[4]
-    
-    
-    listaConLineas.append(fila)
-    listaConLineas.append(columna)
-    listaConLineas.append(arrDiagonalD)
-    listaConLineas.append(arrDiagonalI)
-    return listaConLineas
+      if pos not in [4, 5, 11, 24, 30, 31]:
+        if fila.index(pos) == columna.index(pos):
+          arrDiagonalI = diagonalesIzquierda[3]
+        elif restoEntre7 == 4:
+          arrDiagonalI = diagonalesIzquierda[0]
+        elif restoEntre7 == 5:
+          arrDiagonalI = diagonalesIzquierda[1]
+        elif restoEntre7 == 6:
+          arrDiagonalI = diagonalesIzquierda[2]
+        elif restoEntre7 == 1:
+          arrDiagonalI = diagonalesIzquierda[4]
+        elif restoEntre7 == 2:
+          arrDiagonalI = diagonalesIzquierda[5]
+        elif restoEntre7 == 3:
+          arrDiagonalI = diagonalesIzquierda[6]
+      
+      
+      if pos not in [0, 1, 6, 29, 34, 35]:
+        if pos % 5 == 0 and pos != 35:
+          arrDiagonalD = diagonalesDerecha[3]
+        else:
+          if restoEntre10 == 2 or restoEntre10 == 7:
+            if (pos < 22 or pos == 24) and pos != 17:
+              arrDiagonalD = diagonalesDerecha[0]
+            elif (pos > 21 and pos != 24) or pos == 17:
+              arrDiagonalD = diagonalesDerecha[5]
+          elif restoEntre10 == 3 or restoEntre10 == 8:  
+            if pos < 22:
+              arrDiagonalD = diagonalesDerecha[1]
+            elif pos > 21:
+              arrDiagonalD = diagonalesDerecha[6]
+          if restoEntre10 == 4 or restoEntre10 == 9:
+            arrDiagonalD = diagonalesDerecha[2]
+          elif restoEntre10 == 1 or restoEntre10 == 6:
+            arrDiagonalD = diagonalesDerecha[4]
+      
+      
+      listaConLineas.append(fila)
+      listaConLineas.append(columna)
+      listaConLineas.append(arrDiagonalD)
+      listaConLineas.append(arrDiagonalI)
+      conjuntoDeListas.append(listaConLineas)
+    print (conjuntoDeListas)
+    return conjuntoDeListas
 
   def revisarDiagonalSuperiorDer(self, arrDiagonal, pos):
     cotaInferior = arrDiagonal[0]
@@ -191,13 +198,13 @@ class JuegoReversi:
         if(fichaActual == self.jugador):
           return [True, posicionDeFichasPorDarVuelta]
     return [False, []]
-  
+
+
   def generar_jugadas_posibles(self): #Acá se ve que, porque y como jugara el agente
     posibles=[]
     for i in range(tamanio): 
       if self.tablero[i]==0:
-        listaArreglos = self.asignar_lineas(i)
-        revisarHaciaIzquierda = self.revisarHaciaIzquierda(listaArreglos[0], i)
+        revisarHaciaIzquierda = self.revisarHaciaIzquierda(self.listaArreglos[0], i)
         revisarHaciaDerecha = self.revisarHaciaDerecha(listaArreglos[0], i)
         revisarHaciaArriba = self.revisarHaciaArriba(listaArreglos[1], i)
         revisarHaciaAbajo = self.revisarHaciaAbajo(listaArreglos[1], i)
@@ -270,3 +277,4 @@ def alfabeta2(depth, juego, etapa, alfa, beta, secuencia, secuencias):
     return [juego.jugador, jugadaSeleccionadaAlAzar[0]]
   elif len(jugadas_posibles) == 0:
     return []
+  
