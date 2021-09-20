@@ -269,7 +269,12 @@ class JuegoReversi:
     self.jugador*=-1
 
 #IA
-def minimax(depth, juego,etapa,secuencia,secuencias):
+
+lista_ponderaciones= [20, -4, 0.7, 0.7, -4, 20,  -5, -2, -0.1, -0.1, -2, -5,  1.5, -0.5, 0.5, 0.5, -0.5, 1.5,  1.5, -0.5, 0.5, 0.5, -0.5, 1.5,  -5, -2, -0.1, -0.1, -2, -5,  20, -4, 0.7, 0.7, -4, 20]
+
+
+
+'''def minimax(depth, juego,etapa,secuencia,secuencias):
   depth -= 1
   if juego.estado_final() or depth == 0:
     if(depth == 0):
@@ -294,5 +299,38 @@ def minimax(depth, juego,etapa,secuencia,secuencias):
       if valor[0]>opcion[0]:
         valor=[opcion[0],jugada[0],jugada[1]]
     juego.deshacer_jugada(jugada[0])
+    secuencia.pop()
+  return valor'''
+
+
+def minimax(depth, juego, alpha, beta, etapa,secuencia,secuencias):
+  depth -= 1
+  if juego.estado_final() or depth == 0:
+    if(depth == 0):
+      juego.evaluar(True)
+    secuencias.append(secuencia.copy())
+    return [-1*juego.calcular_utilidad()]
+  if etapa==1:
+    valor=[alpha,None]
+  else:
+    valor=[beta,None]
+  jugadas_posibles=juego.generar_jugadas_posibles()
+  for jugada in jugadas_posibles:
+    juego.jugar(jugada[0])
+    secuencia.append(jugada[0])
+    opcion=minimax(depth, juego, alpha, beta, etapa*-1, secuencia, secuencias)
+    juego.deshacer_jugada(jugada[0])
+    #maximizar
+    if etapa==1:
+      if valor[0]<opcion[0]:
+        valor=[opcion[0],jugada[0],jugada[1]]
+      else:
+        break
+    else:
+    #minimizar
+      if valor[0]>opcion[0]:
+        valor=[opcion[0],jugada[0],jugada[1]]
+      else:
+        break
     secuencia.pop()
   return valor

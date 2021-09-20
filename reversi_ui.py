@@ -7,7 +7,7 @@ from tkinter import messagebox
 class ventanaDificultad:
     def __init__(self):
         self.ventana = Tk()
-        '''        self.ventana.geometry("300x300")'''
+        self.ventana.title("Dificultad")
         self.ventana.configure(bg = "grey")
         self.dificultad = 4
         etiqueta = Label(text = "Seleccione la dificultad. \n(Dificultad baja seleccionada por defecto)", bg = "grey")
@@ -63,16 +63,13 @@ class Reversi:
         if self.juego.estado_final():
             if self.juego.ganador == 1:
                 messagebox.showinfo("Reversi", "Has ganado!")
-                self.principal.after(3000,lambda:self.principal.destroy())
+                self.principal.after(2500,lambda:self.principal.destroy())
             elif self.juego.ganador == 0:
                 messagebox.showinfo("Reversi", "Empate")
-                self.principal.after(3000,lambda:self.principal.destroy())
+                self.principal.after(2500,lambda:self.principal.destroy())
             else:
                 messagebox.showinfo("Reversi", "Has perdido")
-                self.principal.after(3000,lambda:self.principal.destroy())
-            '''self.juego.reiniciar()
-            self.actualizar_tablero()  '''
-
+                self.principal.after(2500,lambda:self.principal.destroy())
             return True
         else:
             return False
@@ -81,7 +78,7 @@ class Reversi:
         jugadas_posibles = self.juego.generar_jugadas_posibles()
         if len(jugadas_posibles) != 0:
             #m = aisearch.alfabetaAzar(self.juego)
-            m = aisearch.minimax(self.dificultadPorProfundidad, self.juego, 1, [], [])
+            m = aisearch.minimax(self.dificultadPorProfundidad,self.juego, -1000, 1000,  1, [], [])
             self.juego.jugar(m[1])
             self.juego.fichasPorDarVuelta = m[2]
             self.juego.voltearFichas()
@@ -107,7 +104,7 @@ class Reversi:
                             jugadas_posibles = self.juego.generar_jugadas_posibles()
                             if len(jugadas_posibles) != 0:
                                 #m = aisearch.alfabetaAzar(self.juego)
-                                m=aisearch.minimax(self.dificultadPorProfundidad, self.juego, 1, [], [])
+                                m=aisearch.minimax(self.dificultadPorProfundidad,self.juego, -1000, 1000,  1, [], [])
                                 if(m[1] != None):
                                     self.juego.jugar(m[1])
                                     self.juego.fichasPorDarVuelta = m[2]
