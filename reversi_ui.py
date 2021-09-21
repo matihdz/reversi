@@ -1,5 +1,4 @@
 import aisearch
-import time
 from tkinter import *
 from tkinter import messagebox
 
@@ -12,8 +11,8 @@ class ventanaDificultad:
         self.dificultad = 4
         etiqueta = Label(text = "Seleccione la dificultad. \n(Dificultad baja seleccionada por defecto)", bg = "grey")
         boton1 = Button(self.ventana, bg = "lightblue", text = 'Baja', width = 16, height = 3, command = lambda: self.setDificultad(4))
-        boton2 = Button(self.ventana, bg = "orange", text = 'Media', width = 16, height = 3, command = lambda: self.setDificultad(5))
-        boton3 = Button(self.ventana, bg = "red", text = 'Alta', width = 16, height = 3, command = lambda: self.setDificultad(6))
+        boton2 = Button(self.ventana, bg = "orange", text = 'Media', width = 16, height = 3, command = lambda: self.setDificultad(7))
+        boton3 = Button(self.ventana, bg = "red", text = 'Alta', width = 16, height = 3, command = lambda: self.setDificultad(9))
         boton4 = Button(self.ventana, bg = "lightgreen", text = '¡A jugar!', width = 16, height = 3, command = lambda: self.setDificultad(4))
         etiqueta.pack()
         boton1.pack()
@@ -37,7 +36,6 @@ class Reversi:
         self.vacio=PhotoImage(file="./resources/vacio.png")
         self.juego=aisearch.JuegoReversi()
         self.actualizar_tablero()
-        print (self.dificultadPorProfundidad)
 
     def actualizar_tablero(self):
         k = 0
@@ -58,7 +56,6 @@ class Reversi:
                 k += 1
             self.botones.append(fila)
 
-
     def victoria(self):
         if self.juego.estado_final():
             if self.juego.ganador == 1:
@@ -77,8 +74,7 @@ class Reversi:
     def agenteJuegaDeNuevo(self):
         jugadas_posibles = self.juego.generar_jugadas_posibles()
         if len(jugadas_posibles) != 0:
-            #m = aisearch.alfabetaAzar(self.juego)
-            m = aisearch.minimax(self.dificultadPorProfundidad,self.juego, -1000, 1000,  1, [], [])
+            m = aisearch.alfabeta(self.dificultadPorProfundidad,self.juego, -1000, 1000,  1, [], [])
             self.juego.jugar(m[1])
             self.juego.fichasPorDarVuelta = m[2]
             self.juego.voltearFichas()
@@ -103,8 +99,7 @@ class Reversi:
                         if not self.victoria():
                             jugadas_posibles = self.juego.generar_jugadas_posibles()
                             if len(jugadas_posibles) != 0:
-                                #m = aisearch.alfabetaAzar(self.juego)
-                                m=aisearch.minimax(self.dificultadPorProfundidad,self.juego, -1000, 1000,  1, [], [])
+                                m=aisearch.alfabeta(self.dificultadPorProfundidad,self.juego, -1000, 1000,  1, [], [])
                                 if(m[1] != None):
                                     self.juego.jugar(m[1])
                                     self.juego.fichasPorDarVuelta = m[2]
@@ -123,7 +118,6 @@ class Reversi:
                 print('Tienes que jugar la ficha en una casilla vacia')
         elif len(jugadas_posibles) == 0:
             print('El usuario no tiene jugadas posibles, turno del agente')
-            time.sleep(1)
             self.juego.jugador*=-1
             self.agenteJuegaDeNuevo()
 

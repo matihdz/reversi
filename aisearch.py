@@ -7,7 +7,7 @@ tamanio = 6*6
 class JuegoReversi:
   #Comienza el raton, valor=1
   def __init__(self,turno=1):
-    self.tablero=[0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,-1,0,0,0,0,-1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+    self.tablero=[0,0,0,0,0,0,0,0,0,0,0,0,0,0,-1,1,0,0,0,0,1,-1,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
     self.completo=False
     self.ganador=None
     self.jugador=turno
@@ -17,7 +17,7 @@ class JuegoReversi:
 
 
   def reiniciar(self):
-    self.tablero=[0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,-1,0,0,0,0,-1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+    self.tablero=[0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,-1,0,0,0,0,-1,-1,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
     self.completo=False
     self.ganador=None
     self.jugador=1
@@ -85,7 +85,6 @@ class JuegoReversi:
       listaConLineas.append(arrDiagonalD)
       listaConLineas.append(arrDiagonalI)
       conjuntoDeListas.append(listaConLineas)
-      print (listaConLineas, pos)
     return conjuntoDeListas
 
   def revisarDiagonalSuperiorDer(self, arrDiagonal, pos):
@@ -272,7 +271,7 @@ class JuegoReversi:
 
 lista_ponderaciones= [20, -4, 0.7, 0.7, -4, 20,  -5, -2, -0.1, -0.1, -2, -5,  1.5, -0.5, 0.5, 0.5, -0.5, 1.5,  1.5, -0.5, 0.5, 0.5, -0.5, 1.5,  -5, -2, -0.1, -0.1, -2, -5,  20, -4, 0.7, 0.7, -4, 20]
 
-def minimax(depth, juego, alpha, beta, etapa,secuencia,secuencias):
+def alfabeta(depth, juego, alpha, beta, etapa,secuencia,secuencias):
   depth -= 1
   if juego.estado_final() or depth == 0:
     if(depth == 0):
@@ -287,11 +286,10 @@ def minimax(depth, juego, alpha, beta, etapa,secuencia,secuencias):
   for jugada in jugadas_posibles:
     juego.jugar(jugada[0])
     secuencia.append(jugada[0])
-    opcion=minimax(depth, juego, alpha, beta, etapa*-1, secuencia, secuencias)
+    opcion=alfabeta(depth, juego, alpha, beta, etapa*-1, secuencia, secuencias)
     for i in jugada[1]:
       puntaje_fichas_volteadas = lista_ponderaciones[i]
     opcion[0] = lista_ponderaciones[jugada[0]] + puntaje_fichas_volteadas
-    print(opcion[0])
     juego.deshacer_jugada(jugada[0])
     #maximizar
     if etapa==1:
@@ -307,33 +305,5 @@ def minimax(depth, juego, alpha, beta, etapa,secuencia,secuencias):
         break
     secuencia.pop()
   return valor
-
-'''def minimax(depth, juego,etapa,secuencia,secuencias):
-  depth -= 1
-  if juego.estado_final() or depth == 0:
-    if(depth == 0):
-      juego.evaluar(True)
-    secuencias.append(secuencia.copy())
-    return [-1*juego.calcular_utilidad()]
-  if etapa==1:
-    valor=[-1000,None]
-  else:
-    valor=[1000,None]
-  jugadas_posibles=juego.generar_jugadas_posibles()
-  for jugada in jugadas_posibles:
-    juego.jugar(jugada[0])
-    secuencia.append(jugada[0])
-    opcion=minimax(depth, juego, etapa*-1, secuencia, secuencias)
-    #maximizar
-    if etapa==1:
-      if valor[0]<opcion[0]:
-        valor=[opcion[0],jugada[0],jugada[1]]
-    else:
-    #minimizar
-      if valor[0]>opcion[0]:
-        valor=[opcion[0],jugada[0],jugada[1]]
-    juego.deshacer_jugada(jugada[0])
-    secuencia.pop()
-  return valor'''
 
 
