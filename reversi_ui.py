@@ -22,7 +22,8 @@ class ventanaDificultad:
 
     def setDificultad(self, i):
         self.dificultad = i
-        self.ventana.destroy
+        self.ventana.lower()
+        self.ventana.destroy()
         Reversi(i)
 
 class Reversi:
@@ -107,17 +108,17 @@ class Reversi:
                                     self.actualizar_tablero()
                                     self.victoria()
                                 else:
-                                    print('El agente no tiene jugadas posibles, turno del usuario')
+                                    print('El agente no tiene jugadas posibles, turno del usuario.')
                                     self.juego.jugador*=-1
                                     return
                             elif len(jugadas_posibles) == 0:
-                                print('El agente no tiene jugadas posibles, turno del usuario')
+                                print('El agente no tiene jugadas posibles, turno del usuario.')
                                 self.juego.jugador*=-1
                                 return
             else:
                 print('Tienes que jugar la ficha en una casilla vacia')
         elif len(jugadas_posibles) == 0:
-            print('El usuario no tiene jugadas posibles, turno del agente')
+            print('El usuario no tiene jugadas posibles, turno del agente.\n HAGA CLICK EN CUALQUIER CASILLA PARA CONTINUAR ...')
             self.juego.jugador*=-1
             self.agenteJuegaDeNuevo()
 

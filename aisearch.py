@@ -7,7 +7,7 @@ tamanio = 6*6
 class JuegoReversi:
   #Comienza el raton, valor=1
   def __init__(self,turno=1):
-    self.tablero=[0,0,0,0,0,0,0,0,0,0,0,0,0,0,-1,1,0,0,0,0,1,-1,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+    self.tablero=[0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,-1,0,0,0,0,-1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
     self.completo=False
     self.ganador=None
     self.jugador=turno
@@ -17,7 +17,7 @@ class JuegoReversi:
 
 
   def reiniciar(self):
-    self.tablero=[0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,-1,0,0,0,0,-1,-1,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+    self.tablero=[0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,-1,0,0,0,0,-1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
     self.completo=False
     self.ganador=None
     self.jugador=1
@@ -287,20 +287,23 @@ def alfabeta(depth, juego, alpha, beta, etapa,secuencia,secuencias):
     juego.jugar(jugada[0])
     secuencia.append(jugada[0])
     opcion=alfabeta(depth, juego, alpha, beta, etapa*-1, secuencia, secuencias)
+    puntaje_fichas_volteadas = 0
     for i in jugada[1]:
-      puntaje_fichas_volteadas = lista_ponderaciones[i]
+      puntaje_fichas_volteadas = lista_ponderaciones[i] + puntaje_fichas_volteadas
     opcion[0] = lista_ponderaciones[jugada[0]] + puntaje_fichas_volteadas
     juego.deshacer_jugada(jugada[0])
     #maximizar
     if etapa==1:
       if valor[0]<opcion[0]:
         valor=[opcion[0],jugada[0],jugada[1]]
+        alpha = valor[0]
       else:
         break
     else:
     #minimizar
       if valor[0]>opcion[0]:
         valor=[opcion[0],jugada[0],jugada[1]]
+        beta = valor[0]
       else:
         break
     secuencia.pop()
